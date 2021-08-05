@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presta/screens/login_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,18 +7,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Presta',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Home(title: 'Presta'),
-    );
+        title: 'Presta',
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: LoginScreen() //Home(title: 'Presta'),
+        );
   }
 }
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key : key);
+  Home({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -25,7 +26,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,20 +34,18 @@ class _HomeState extends State<Home> {
         centerTitle: true,
       ),
       body: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          padding: EdgeInsets.all(20),
-          children: buttonsCategorias(),
-        ),
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        padding: EdgeInsets.all(20),
+        children: buttonsCategorias(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: getButtonsNavigationBar(),
       ),
     );
   }
 }
-
-
 
 /// Gera os botões com as categorias */
 List<TextButton> buttonsCategorias() {
@@ -80,8 +78,9 @@ List<String> getCategoriasServico() => [
 
 /// Botões da barra de navegação */
 List<BottomNavigationBarItem> getButtonsNavigationBar() => [
-  BottomNavigationBarItem(label: 'Serviços', icon: Icon(Icons.construction)),
-  BottomNavigationBarItem(label: 'Solicitações', icon: Icon(Icons.pending_actions)),
-  BottomNavigationBarItem(label: 'Sair', icon: Icon(Icons.logout)),
-];
-
+      BottomNavigationBarItem(
+          label: 'Serviços', icon: Icon(Icons.construction)),
+      BottomNavigationBarItem(
+          label: 'Solicitações', icon: Icon(Icons.pending_actions)),
+      BottomNavigationBarItem(label: 'Sair', icon: Icon(Icons.logout)),
+    ];
