@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presta/screens/cliente/solicitacao_servico.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -99,14 +100,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         }),
                     Text(
-                      "Continuar conctado?",
+                      "Continuar conectado?",
                       style: TextStyle(color: Colors.black),
                     )
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 20)),
                 RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SolicitacaoServicos()));
+                    },
                     child: Text(
                       "Login",
                       style: TextStyle(color: Colors.yellow[600]),
