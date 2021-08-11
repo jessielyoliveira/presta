@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class perfilPrestador extends StatefulWidget {
+class PerfilPrestador extends StatefulWidget {
   @override
-  _perfilPrestadorState createState() => _perfilPrestadorState();
+  _PerfilPrestadorState createState() => _PerfilPrestadorState();
 }
 
-class _perfilPrestadorState extends State<perfilPrestador> {
+class _PerfilPrestadorState extends State<PerfilPrestador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class portifolio extends StatefulWidget {
+class Portifolio extends StatefulWidget {
   @override
-  _portifolioState createState() => _portifolioState();
+  _PortifolioState createState() => _PortifolioState();
 }
 
-class _portifolioState extends State<portifolio> {
+class _PortifolioState extends State<Portifolio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
