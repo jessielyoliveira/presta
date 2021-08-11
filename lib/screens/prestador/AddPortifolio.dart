@@ -20,10 +20,12 @@ class _AddPortifolioState extends State<AddPortifolio> {
           onPressed: () {},
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(bottom: 20)),
+            Padding(
+              padding: EdgeInsets.only(bottom: 20),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -32,27 +34,73 @@ class _AddPortifolioState extends State<AddPortifolio> {
                 Text("add imagem 3"),
               ],
             ),
-            Padding(padding: EdgeInsets.only(bottom: 18)),
-            Row(
-              children: [
-                Text("   Descrição",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    )),
-              ],
+            Padding(
+              padding: EdgeInsets.only(bottom: 18),
             ),
             Row(
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'pqpq',
-                    labelStyle: TextStyle(color: Colors.black),
+                Text(
+                  "   Resumo do Serviço",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
                   ),
                 ),
               ],
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 18),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Digite aqui',
+                //helperText: 'Texto de ajuda',
+                labelText: 'Descrição',
+              ),
+              maxLines: 4,
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 18),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Ex.: Natal-RN',
+                //helperText: 'Texto de ajuda',
+                labelText: 'Local',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 18),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Ex.: João',
+                //helperText: 'Texto de ajuda',
+                labelText: 'Cliente',
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 18)),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Ex.: 2 dias',
+                //helperText: 'Texto de ajuda',
+                labelText: 'Tempo de Duração',
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 18)),
+            RaisedButton(
+                onPressed: () {},
+                child: Text(
+                  "Novo Registro",
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+                color: Colors.amber,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
           ],
         ),
       ),
