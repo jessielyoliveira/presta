@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:presta/screens/cliente/solicitacao_servico.dart';
+import 'package:presta/screens/cliente/servicos.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
