@@ -10,6 +10,7 @@ class AddPortifolio extends StatefulWidget {
 class _AddPortifolioState extends State<AddPortifolio> {
   @override
   Widget build(BuildContext context) {
+    int contador = 0;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -28,6 +29,14 @@ class _AddPortifolioState extends State<AddPortifolio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                // if (contador<4){
+                //for()
+                //}
+              },
+              child: Icon(Icons.add_a_photo),
+            ),
             Text("add imagem 01"),
             Text("add imagem 2"),
             Text("add imagem 3"),
