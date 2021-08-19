@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presta/screens/cliente/servicos.dart';
+import 'package:presta/screens/estrutura.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,6 +9,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool continueConnected = false;
+
+  final _tLogin = TextEditingController();
+  final _tSenha = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,39 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
               Form(
+                key: _formKey,
                 child: Column(
-                  children: [
-                    TextFormField(
-                      autofocus: false,
-                      decoration: InputDecoration(
-                          labelText: "E-mail",
-                          labelStyle: TextStyle(color: Colors.black),
-                          prefixIcon:
-                              Icon(Icons.mail_outline, color: Colors.black),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black))),
-                    ),
-                    TextFormField(
-                      autofocus: false,
-                      decoration: InputDecoration(
-                        labelText: "Senha",
-                        labelStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.vpn_key, color: Colors.black),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black)),
-                      ),
-                    )
-                  ],
+                  children: [_textFormFieldEmail(), _textFormFieldSenha()],
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
@@ -106,22 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SolicitacaoServicos()));
-                },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.black),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow[600],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50))),
-              ),
+              _buttonLogin(context),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Divider(color: Colors.black),
@@ -145,5 +105,102 @@ class _LoginScreenState extends State<LoginScreen> {
             ]),
       ),
     );
+  }
+
+  // Gerador do campo de Login
+  TextFormField _textFormFieldEmail() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.emailAddress,
+      controller: _tLogin,
+      validator: _validaEmail,
+      decoration: InputDecoration(
+          labelText: "E-mail",
+          labelStyle: TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.mail_outline, color: Colors.black),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black))),
+    );
+  }
+
+  // Gerador do campo de Senha
+  TextFormField _textFormFieldSenha() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      controller: _tSenha,
+      validator: _validaSenha,
+      decoration: InputDecoration(
+        labelText: "Senha",
+        labelStyle: TextStyle(color: Colors.black),
+        prefixIcon: Icon(Icons.vpn_key, color: Colors.black),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+        focusedBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+      ),
+    );
+  }
+
+  ElevatedButton _buttonLogin(context) {
+    return ElevatedButton(
+      onPressed: () {
+        _onClickLogin(context);
+      },
+      child: Text(
+        'Login',
+        style: TextStyle(color: Colors.black),
+      ),
+      style: ElevatedButton.styleFrom(
+          primary: Colors.yellow[600],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+    );
+  }
+
+  // Realiza a validação do login
+  String _validaEmail(String text) {
+    return (text.isEmpty) ? "Informe o e-mail" : null;
+  }
+
+  // Realiza a validação da senha
+  String _validaSenha(String text) {
+    return (text.isEmpty) ? "Informe a senha" : null;
+  }
+
+// Realiza o acesso do usuário
+  void _onClickLogin(BuildContext context) {
+    final login = _tLogin.text;
+    final senha = _tSenha.text;
+
+    if (!_formKey.currentState.validate()) return;
+
+    if (login == "teste@teste.com" && senha == "1234") {
+      direcionar(context, Servicos());
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                title: Text("Erro"),
+                content: Text("E-mail e/ou Senha inválido(s)"),
+                actions: <Widget>[
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })
+                ]);
+          });
+    }
   }
 }
