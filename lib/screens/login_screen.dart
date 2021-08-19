@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presta/screens/cliente/servicos.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/perfil.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -82,6 +83,22 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
               _buttonLogin(context),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PerfilPrestador()));
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.yellow[600],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Divider(color: Colors.black),
