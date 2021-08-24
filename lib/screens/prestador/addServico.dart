@@ -11,7 +11,7 @@ class AddServico extends StatefulWidget {
 class _AddServicoState extends State<AddServico> {
   @override
   Widget build(BuildContext context) {
-    int contador = 0;
+    //int contador = 0;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
