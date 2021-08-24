@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:presta/screens/cliente/servicos.dart';
+import 'package:presta/dao/prestadorDao.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/TelaCadastro.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 
 class LoginScreen extends StatefulWidget {
+  final _tLogin = TextEditingController();
+  final _tSenha = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  LoginScreen({Key key, login, senha}) : super(key: key);
+  
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool continueConnected = false;
-
-  final _tLogin = TextEditingController();
-  final _tSenha = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
               Form(
-                key: _formKey,
+                key: widget._formKey,
                 child: Column(
                   children: [_textFormFieldEmail(), _textFormFieldSenha()],
                 ),
@@ -83,33 +86,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
               _buttonLogin(context),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PerfilPrestador()));
-                },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.black),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow[600],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50))),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Divider(color: Colors.black),
-              ),
               Text(
                 "Ainda não possui uma conta?",
                 style: TextStyle(color: Colors.black),
               ),
               Padding(padding: EdgeInsets.only(bottom: 10)),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  direcionar(context, TelaCadastro());
+                },
                 child: Text(
                   'Cadastre-se',
                   style: TextStyle(color: Colors.black),
@@ -129,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return TextFormField(
       autofocus: false,
       keyboardType: TextInputType.emailAddress,
-      controller: _tLogin,
+      controller: widget._tLogin,
       validator: _validaEmail,
       decoration: InputDecoration(
           labelText: "E-mail",
@@ -151,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
       autofocus: false,
       keyboardType: TextInputType.text,
       obscureText: true,
-      controller: _tSenha,
+      controller: widget._tSenha,
       validator: _validaSenha,
       decoration: InputDecoration(
         labelText: "Senha",
@@ -196,20 +181,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
 // Realiza o acesso do usuário
   void _onClickLogin(BuildContext context) {
-    final login = _tLogin.text;
-    final senha = _tSenha.text;
+    final login = widget._tLogin.text;
+    final senha = widget._tSenha.text;
 
-    if (!_formKey.currentState.validate()) return;
+    if (!widget._formKey.currentState.validate()) return;
 
-    if (login == "teste@teste.com" && senha == "1234") {
-      direcionar(context, Servicos());
+    var prestadorLogado = findPrestador(login, senha);
+    if (prestadorLogado != null) {
+      direcionar(context, PerfilPrestador(prestador: prestadorLogado,));
     } else {
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-                title: Text("Erro"),
-                content: Text("E-mail e/ou Senha inválido(s)"),
+                content: Text("E-mail e/ou senha inválidos."),
                 actions: <Widget>[
                   TextButton(
                       child: Text("OK"),

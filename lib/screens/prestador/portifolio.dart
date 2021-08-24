@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/addServico.dart';
-import 'package:presta/screens/prestador/verServico.dart';
 import 'package:presta/screens/prestador/perfil.dart';
+import 'package:presta/screens/prestador/verservico.dart';
 
 class Portifolio extends StatefulWidget {
+   final Prestador prestador;
+  Portifolio({Key key, @required this.prestador}) : super(key: key);
+  
   @override
   _PortifolioState createState() => _PortifolioState();
 }
@@ -21,13 +25,13 @@ class _PortifolioState extends State<Portifolio> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, PerfilPrestador());
+            direcionar(context, PerfilPrestador(prestador: widget.prestador));
           },
         ),
         actions: <Widget>[
           IconButton(
               onPressed: () {
-                direcionar(context, AddServico());
+                direcionar(context, AddServico(prestador: widget.prestador,));
               },
               icon: Icon(Icons.add))
         ],
@@ -41,7 +45,7 @@ class _PortifolioState extends State<Portifolio> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    direcionar(context, Servico());
+                    direcionar(context, Servico(prestador: widget.prestador));
                   },
                   child: const SizedBox(
                     width: double.maxFinite,
