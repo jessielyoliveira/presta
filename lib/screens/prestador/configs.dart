@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:presta/model/BD.dart';
+import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/login_screen.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 
 class Configs extends StatefulWidget {
+  final Prestador prestador;
+  Configs({Key key, @required this.prestador}) : super(key: key);
+
   @override
   _ConfigsState createState() => _ConfigsState();
 }
@@ -19,7 +26,7 @@ class _ConfigsState extends State<Configs> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, PerfilPrestador());
+            direcionar(context, PerfilPrestador(prestador: widget.prestador));
           },
         ),
       ),
@@ -49,7 +56,9 @@ class _ConfigsState extends State<Configs> {
           ),
           Padding(padding: EdgeInsets.all(10)),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              apagarConta(widget.prestador);
+            },
             label: Text('Apagar Conta',
                 style: TextStyle(color: Colors.white, fontSize: 20)),
             icon: Icon(Icons.highlight_remove),
@@ -64,4 +73,35 @@ class _ConfigsState extends State<Configs> {
       ),
     );
   }
+
+
+   Future<bool> apagarConta(Prestador prestador) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Você tem certeza que deseja apagar a conta?'),
+        content: new Text('Essa ação não poderá ser desfeita.'),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('Não'),
+          ),
+          new TextButton(
+            onPressed: () {
+              prestadoresBanco.remove(prestador);
+              direcionar(context, LoginScreen(login: "", senha: "",));
+            },
+            child: new Text('Sim'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
+
+  apagarContaPrestador(Prestador prestador) {
+    prestadoresBanco.remove(prestador);
+  }
+
 }
+
