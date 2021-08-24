@@ -4,29 +4,14 @@ class Prestador extends Usuario {
   int quantServicos;
   List<String> telefones;
 
-  Prestador(quantServicos, telefones)
+  Prestador(quantServicos, telefones, nome, email, senha)
       : this.quantServicos = quantServicos,
         this.telefones = telefones,
-        super(null, null, null);
-}
+        super(nome, email, senha);
 
-List<Prestador> getPrestadores() => [
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-      Prestador('Maria', 98),
-      Prestador('João', 83),
-      Prestador('Ana', 1),
-    ];
+  get getQuantServicos => this.quantServicos;
+  set setQuantServicos(quantServicos) => this.quantServicos = quantServicos;
+
+  get getTelefones => this.telefones;
+  set setTelefones(telefones) => this.telefones = telefones;
+}

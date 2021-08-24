@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/prestador/Portifolio.dart';
+import 'package:presta/screens/prestador/portifolio.dart';
 
 class AddServico extends StatefulWidget {
+  final Prestador prestador;
+  AddServico({Key key, @required this.prestador}) : super(key: key);
   @override
   _AddServicoState createState() => _AddServicoState();
 }
@@ -20,7 +23,7 @@ class _AddServicoState extends State<AddServico> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, Portifolio());
+            direcionar(context, Portifolio(prestador: widget.prestador,));
           },
         ),
       ),

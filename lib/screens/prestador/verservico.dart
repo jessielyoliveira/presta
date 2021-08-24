@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
 
@@ -13,6 +14,8 @@ final List<String> imgList = [
 ];
 
 class Servico extends StatefulWidget {
+  final Prestador prestador;
+  Servico({Key key, @required this.prestador}) : super(key: key);
   @override
   _ServicoState createState() => _ServicoState();
 }
@@ -28,7 +31,7 @@ class _ServicoState extends State<Servico> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, Portifolio());
+            direcionar(context, Portifolio(prestador: widget.prestador,));
           },
         ),
       ),

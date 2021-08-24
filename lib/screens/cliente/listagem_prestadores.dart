@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:presta/model/BD.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/cliente/feed.dart';
 import 'package:presta/screens/estrutura.dart';
@@ -24,7 +25,7 @@ class _ListagemPrestadoresState extends State<ListagemPrestadores> {
 Widget buildListagemPrestadores(BuildContext context) => Scrollbar(
         child: ListView(
       children: [
-        for (var prestador in getPrestadores())
+        for (var prestador in prestadoresBanco)
           itemPrestador(context, prestador)
       ],
     ));
