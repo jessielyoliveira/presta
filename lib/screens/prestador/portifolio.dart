@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/addServico.dart';
+import 'package:presta/screens/prestador/verServico.dart';
+import 'package:presta/screens/prestador/perfil.dart';
 
 class Portifolio extends StatefulWidget {
   @override
@@ -16,9 +20,17 @@ class _PortifolioState extends State<Portifolio> {
         title: Text("Portifólio"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            direcionar(context, PerfilPrestador());
+          },
         ),
-        actions: <Widget>[IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                direcionar(context, AddServico());
+              },
+              icon: Icon(Icons.add))
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -29,7 +41,7 @@ class _PortifolioState extends State<Portifolio> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    print('chama outra tela');
+                    direcionar(context, Servico());
                   },
                   child: const SizedBox(
                     width: double.maxFinite,

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/Portifolio.dart';
 
 class AddServico extends StatefulWidget {
   @override
@@ -17,7 +19,9 @@ class _AddServicoState extends State<AddServico> {
         title: Text("Adicionar Serviço"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            direcionar(context, Portifolio());
+          },
         ),
       ),
       body: SingleChildScrollView(

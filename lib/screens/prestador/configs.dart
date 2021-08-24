@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/perfil.dart';
 
 class Configs extends StatefulWidget {
   @override
@@ -16,7 +18,9 @@ class _ConfigsState extends State<Configs> {
         title: Text("Configurações"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            direcionar(context, PerfilPrestador());
+          },
         ),
       ),
       body: Column(

@@ -1,5 +1,10 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/Portifolio.dart';
+import 'package:presta/screens/prestador/configs.dart';
 
 class PerfilPrestador extends StatefulWidget {
   @override
@@ -14,13 +19,13 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
         elevation: 0,
         backgroundColor: Colors.amber,
         title: Text("Perfil"),
-        leading: IconButton(
+        /*leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {},
-        ),
-        actions: <Widget>[
+        ),*/
+        /*actions: <Widget>[
           IconButton(onPressed: () {}, icon: Icon(Icons.search))
-        ],
+        ],*/
       ),
       body: Column(
         children: [
@@ -99,16 +104,26 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
             child: Column(
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    direcionar(context, Portifolio());
+                  },
                   child: const Text('Portifolio'),
                 ),
-                ElevatedButton(
+                /*ElevatedButton(
                   onPressed: () {},
                   child: const Text('Avaliações'),
+                ),*/
+                ElevatedButton(
+                  onPressed: () {
+                    direcionar(context, Configs());
+                  },
+                  child: const Text('Configurações'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Configurações'),
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                  child: const Text('SAIR'),
                 ),
               ],
             ),

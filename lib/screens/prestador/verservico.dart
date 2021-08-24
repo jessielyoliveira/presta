@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/prestador/addServico.dart';
+import 'package:presta/screens/prestador/portifolio.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -22,10 +25,12 @@ class _ServicoState extends State<Servico> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.amber,
-        title: Text("Serviços"),
+        title: Text("Detalhes do Serviço"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            direcionar(context, Portifolio());
+          },
         ),
       ),
       body: Column(
