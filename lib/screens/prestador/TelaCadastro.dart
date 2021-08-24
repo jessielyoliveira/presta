@@ -5,6 +5,7 @@ class TelaCadastro extends StatefulWidget {
   _TelaCadastroState createState() => _TelaCadastroState();
 }
 
+// usar isso https://material.io/components/chips/flutter#filter-chips
 class _TelaCadastroState extends State<TelaCadastro> {
   @override
   Widget build(BuildContext context) {
