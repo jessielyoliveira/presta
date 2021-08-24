@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/prestador/addServico.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
 
 final List<String> imgList = [
