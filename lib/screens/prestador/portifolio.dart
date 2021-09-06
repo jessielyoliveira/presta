@@ -7,9 +7,9 @@ import 'package:presta/screens/prestador/perfil.dart';
 import 'package:presta/screens/prestador/verservico.dart';
 
 class Portifolio extends StatefulWidget {
-   final Prestador prestador;
+  final Prestador prestador;
   Portifolio({Key key, @required this.prestador}) : super(key: key);
-  
+
   @override
   _PortifolioState createState() => _PortifolioState();
 }
@@ -31,7 +31,11 @@ class _PortifolioState extends State<Portifolio> {
         actions: <Widget>[
           IconButton(
               onPressed: () {
-                direcionar(context, AddServico(prestador: widget.prestador,));
+                direcionar(
+                    context,
+                    AddServico(
+                      prestador: widget.prestador,
+                    ));
               },
               icon: Icon(Icons.add)),
         ],
