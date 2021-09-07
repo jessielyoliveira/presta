@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presta/dao/prestadorDao.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/prestador/TelaCadastro.dart';
+import 'package:presta/screens/TelaCadastro.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   LoginScreen({Key key, login, senha}) : super(key: key);
-  
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -188,7 +188,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var prestadorLogado = findPrestador(login, senha);
     if (prestadorLogado != null) {
-      direcionar(context, PerfilPrestador(prestador: prestadorLogado,));
+      direcionar(
+          context,
+          PerfilPrestador(
+            prestador: prestadorLogado,
+          ));
     } else {
       showDialog(
           context: context,
