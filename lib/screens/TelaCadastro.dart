@@ -20,7 +20,9 @@ class _TelaCadastroState extends State<TelaCadastro> {
   Widget build(BuildContext context) {
     return Scaffold(
         //backgroundColor: Colors.amberAccent,
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -91,7 +93,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
           )
         ],
       ),
-    ));
+    )));
   }
 
   // Realiza a validação da senha

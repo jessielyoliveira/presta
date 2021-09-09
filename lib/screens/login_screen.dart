@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(horizontal: 30),
         decoration: BoxDecoration(
             gradient: LinearGradient(
