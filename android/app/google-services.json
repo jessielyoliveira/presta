@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "336374966184",
-    "firebase_url": "https://prestaapp-c52d3-default-rtdb.firebaseio.com",
-    "project_id": "prestaapp-c52d3",
-    "storage_bucket": "prestaapp-c52d3.appspot.com"
+    "project_number": "941128220207",
+    "project_id": "app-presta",
+    "storage_bucket": "app-presta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336374966184:android:6edbfd0ed59fa3c8a99f9d",
+        "mobilesdk_app_id": "1:941128220207:android:8ce84807b59b913766d0da",
         "android_client_info": {
           "package_name": "com.example.presta"
         }
       },
       "oauth_client": [
         {
-          "client_id": "336374966184-78gljnl7is4upiivk1mh08l4c5g1tndd.apps.googleusercontent.com",
+          "client_id": "941128220207-ih3v83lrsejtf7nk3tq3sds997ting1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.presta",
+            "certificate_hash": "606255b4b426c19fede450eeeb666c1167323b1d"
+          }
+        },
+        {
+          "client_id": "941128220207-23n4bqcg0mm75erqqifd43n3hteg6mpg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALuxdvoSOotmDDeiMSXxk16ZWNF5-igeg"
+          "current_key": "AIzaSyBIVevvd3eTLnHSrOSzfgeRKdsfXpevPJI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "336374966184-78gljnl7is4upiivk1mh08l4c5g1tndd.apps.googleusercontent.com",
+              "client_id": "941128220207-23n4bqcg0mm75erqqifd43n3hteg6mpg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
