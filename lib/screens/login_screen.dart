@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:presta/dao/prestadorDao.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/TelaCadastro.dart';
-import 'package:presta/screens/prestador/perfil.dart';
+import 'package:presta/service/autenticacao.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  final _tLogin = TextEditingController();
-  final _tSenha = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  LoginScreen({Key key, login, senha}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
   
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool continueConnected = false;
+  final email = TextEditingController();
+  final senha = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool? continueConnected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-              Colors.yellow[600],
-              Colors.yellow[100],
+                  Color(Colors.yellow.shade600.value),
+                  Color(Colors.yellow.shade100.value)
             ])),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
               Form(
-                key: widget._formKey,
+                key: formKey,
                 child: Column(
                   children: [_textFormFieldEmail(), _textFormFieldSenha()],
                 ),
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Checkbox(
                       value: this.continueConnected,
-                      onChanged: (bool newValue) {
+                      onChanged: (bool? newValue) {
                         setState(() {
                           this.continueConnected = newValue;
                         });
@@ -86,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
               _buttonLogin(context),
+              _buttonLoginGoogle(context),
               Text(
                 "Ainda não possui uma conta?",
                 style: TextStyle(color: Colors.black),
@@ -93,10 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(padding: EdgeInsets.only(bottom: 10)),
               ElevatedButton(
                 onPressed: () {
-                  direcionar(context, TelaCadastro());
+                  if (formKey.currentState!.validate()) {
+                    criarConta();
+                  }
                 },
                 child: Text(
-                  'Cadastre-se',
+                  'Criar conta',
                   style: TextStyle(color: Colors.black),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -114,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return TextFormField(
       autofocus: false,
       keyboardType: TextInputType.emailAddress,
-      controller: widget._tLogin,
+      controller: email,
       validator: _validaEmail,
       decoration: InputDecoration(
           labelText: "E-mail",
@@ -136,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
       autofocus: false,
       keyboardType: TextInputType.text,
       obscureText: true,
-      controller: widget._tSenha,
+      controller: senha,
       validator: _validaSenha,
       decoration: InputDecoration(
         labelText: "Senha",
@@ -169,40 +172,95 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  ElevatedButton _buttonLoginGoogle(context) {
+    return ElevatedButton.icon(
+      onPressed: () {loginGoogle();}, 
+      icon: Icon(FontAwesomeIcons.google, color: Colors.black,), 
+      label: Text(
+        'Login with Google',
+        style: TextStyle(color: Colors.black),),
+      style: ElevatedButton.styleFrom(
+          primary: Colors.yellow[600],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)))
+    );
+  }
+
   // Realiza a validação do login
-  String _validaEmail(String text) {
-    return (text.isEmpty) ? "Informe o e-mail" : null;
+  String? _validaEmail(String? text) {
+    return (text!.isEmpty) ? "Informe o e-mail" : null;
   }
 
   // Realiza a validação da senha
-  String _validaSenha(String text) {
-    return (text.isEmpty) ? "Informe a senha" : null;
+  String? _validaSenha(String? text) {
+    return (text!.isEmpty) ? "Informe a senha" : null;
   }
 
 // Realiza o acesso do usuário
   void _onClickLogin(BuildContext context) {
-    final login = widget._tLogin.text;
-    final senha = widget._tSenha.text;
-
-    if (!widget._formKey.currentState.validate()) return;
-
-    var prestadorLogado = findPrestador(login, senha);
-    if (prestadorLogado != null) {
-      direcionar(context, PerfilPrestador(prestador: prestadorLogado,));
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                content: Text("E-mail e/ou senha inválidos."),
-                actions: <Widget>[
-                  TextButton(
-                      child: Text("OK"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      })
-                ]);
-          });
+    if (formKey.currentState!.validate()) {
+      login();
     }
   }
+
+  void login() async {
+    try {
+      await context.read<Autenticacao>().login(email.text.trim(), senha.text.trim());
+    } on AutenticacaoException catch (e) {
+      ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(e.mensagem)));
+    }
+  }
+
+
+  void loginGoogle() {
+    context.read<Autenticacao>().googleLogin();
+  }
+
+  void criarConta() async {
+    try {
+      await context.read<Autenticacao>().criarConta(email.text.trim(), senha.text.trim());
+    } on AutenticacaoException catch (e) {
+      ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(e.mensagem)));
+    }
+  }
+
+Future _loginGoogle(context) async {
+  // final usuarioGoogle = await GoogleSignInApi.login();
+
+  // if (usuarioGoogle == null) {
+  //   ScaffoldMessenger.of(context)
+  //     .showSnackBar(SnackBar(content: Text('Login falhou')));
+
+  // } else {
+    
+  //   List<QueryDocumentSnapshot<Prestador>> getPrestador = await prestadorRef
+  //     .limit(1)
+  //     .where('email', isEqualTo: usuarioGoogle.email)
+  //     .where('via_google', isEqualTo: true)
+  //     .where('senha', isNull: true)
+  //     .get().then((value) => value.docs);
+
+
+  //   if (getPrestador == null) {
+  //     prestadorRef.add(
+  //       Prestador(
+  //         id: 1,
+  //         nome: usuarioGoogle.displayName, 
+  //         email: usuarioGoogle.email, 
+  //         senha: null,
+  //         urlImagem: usuarioGoogle.photoUrl,
+  //         contato: null, 
+  //         loginViaGoogle: true
+  //       )
+  //     );
+  //   }
+    
+  //   direciona
+  //rPosLogin(context, getPrestador.last.data());    
+  }
 }
+
+
+
