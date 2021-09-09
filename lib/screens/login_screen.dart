@@ -21,7 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: SingleChildScrollView(
+      child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30),
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ]),
       ),
-    );
+    ));
   }
 
   // Gerador do campo de Login

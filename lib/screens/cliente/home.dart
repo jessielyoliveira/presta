@@ -4,34 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/cliente/servicos.dart';
 
-List<String> _estados = <String>[
-  'Acre (AC)',
-  'Alagoas (AL)',
-  'Amapá (AP)',
-  'Amazonas (AM)',
-  'Bahia (BA)',
-  'Ceará (CE)',
-  'Distrito Federal (DF)',
-  'Espírito Santo (ES)',
-  'Goiás (GO)',
-  'Maranhão (MA)',
-  'Mato Grosso (MT)',
-  'Mato Grosso do Sul (MS)',
-  'Minas Gerais (MG)',
-  'Pará (PA)',
-  'Paraíba (PB)',
-  'Paraná (PR)',
-  'Pernambuco (PE)',
-  'Piauí (PI)',
-  'Rio de Janeiro (RJ)',
-  'Rio Grande do Norte (RN)',
-  'Rio Grande do Sul (RS)',
-  'Rondônia (RO)',
-  'Roraima (RR)',
-  'Santa Catarina (SC)',
-  'São Paulo (SP)',
-  'Sergipe (SE)',
-  'Tocantins (TO)',
+List<String> _cidades = <String>[
+  'Natal',
+  'Ceará - Mirim',
+  'Extremoz',
+  'Mossoró',
+  'Parnamirim',
+  'São Gonçalo do Amarante',
 ];
 
 String dropdownValue;
@@ -79,8 +58,9 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.bold,
                   )),
               Padding(padding: EdgeInsets.only(bottom: 50)),
-              Text("Insira o nome da sua cidade!"),
-              TextFormField(
+              Text("Escolha a sua cidade"),
+
+              /*TextFormField(
                 decoration: InputDecoration(
                   icon: Icon(Icons.location_city_rounded),
                   hintText: 'Exemplo: Natal',
@@ -88,7 +68,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
-
+*/
               Center(
                 child: Row(
                   children: [
@@ -96,14 +76,14 @@ class _HomeState extends State<Home> {
                       focusColor: Colors.white,
                       value: dropdownValue,
                       //elevation: 5,
-                      items: _estados
+                      items: _cidades
                           .map<DropdownMenuItem<String>>((String value) {
                         return new DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
-                      hint: Text('Escolha seu estado'),
+                      hint: Text('Escolha sua Cidade'),
                       onChanged: (String value) {
                         setState(() {
                           dropdownValue = value;
@@ -121,9 +101,11 @@ class _HomeState extends State<Home> {
                 //endIndent: 0,
               ),
               */
-              Padding(padding: EdgeInsets.only(bottom: 10)),
+              Padding(padding: EdgeInsets.only(bottom: 25)),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  direcionar(context, Servicos());
+                },
                 child: Text(
                   'Continuar',
                   style: TextStyle(color: Colors.yellowAccent, fontSize: 20),
@@ -133,12 +115,12 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
-              Padding(padding: EdgeInsets.all(10)),
+              /*Padding(padding: EdgeInsets.all(10)),
               Text(
                 "OU",
                 textAlign: TextAlign.center,
               ),
-              /*
+              
               Divider(
                 height: 5,
                 thickness: 5,
@@ -146,6 +128,7 @@ class _HomeState extends State<Home> {
                 endIndent: 20,
               ),
 */
+/*
               Padding(padding: EdgeInsets.only(bottom: 10)),
               ElevatedButton(
                 onPressed: () {
@@ -160,6 +143,7 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
+              */
             ]),
       ),
     ));

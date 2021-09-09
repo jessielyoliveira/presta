@@ -4,6 +4,7 @@ import 'package:presta/model/BD.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/cliente/feed.dart';
 import 'package:presta/screens/estrutura.dart';
+//import 'package:presta/screens/prestador/portifolio.dart';
 
 class ListagemPrestadores extends StatefulWidget {
   @override
@@ -14,10 +15,10 @@ class _ListagemPrestadoresState extends State<ListagemPrestadores> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: getAppBar('Prestadores'),
-        body: buildListagemPrestadores(context),
-        bottomNavigationBar: getButtonNavigationBar(),
-      );
+      appBar: getAppBar('Prestadores'),
+      body: buildListagemPrestadores(context),
+      //bottomNavigationBar: getButtonNavigationBar(),
+    );
   }
 }
 
