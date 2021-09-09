@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:presta/model/BD.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
@@ -74,34 +73,36 @@ class _ConfigsState extends State<Configs> {
     );
   }
 
-
-   Future<bool> apagarConta(Prestador prestador) {
+  Future<bool> apagarConta(Prestador prestador) {
     return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Você tem certeza que deseja apagar a conta?'),
-        content: new Text('Essa ação não poderá ser desfeita.'),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Não'),
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Você tem certeza que deseja apagar a conta?'),
+            content: new Text('Essa ação não poderá ser desfeita.'),
+            actions: <Widget>[
+              new TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Não'),
+              ),
+              new TextButton(
+                onPressed: () {
+                  prestadoresBanco.remove(prestador);
+                  direcionar(
+                      context,
+                      LoginScreen(
+                        login: "",
+                        senha: "",
+                      ));
+                },
+                child: new Text('Sim'),
+              ),
+            ],
           ),
-          new TextButton(
-            onPressed: () {
-              prestadoresBanco.remove(prestador);
-              direcionar(context, LoginScreen(login: "", senha: "",));
-            },
-            child: new Text('Sim'),
-          ),
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
   }
-
 
   apagarContaPrestador(Prestador prestador) {
     prestadoresBanco.remove(prestador);
   }
-
 }
-

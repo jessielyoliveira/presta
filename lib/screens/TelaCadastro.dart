@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/login_screen.dart';
 
 class TelaCadastro extends StatefulWidget {
   @override
   _TelaCadastroState createState() => _TelaCadastroState();
   final _tNome = TextEditingController();
   final _tTelefone = TextEditingController();
-  final _tNascimento = TextEditingController();
   final _tLogin = TextEditingController();
   final _tSenha = TextEditingController();
   final _tConfirmarSenha = TextEditingController();
@@ -94,11 +92,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
         ],
       ),
     ));
-  }
-
-  // Realiza a validação do login
-  String _validaEmail(String text) {
-    return (text.isEmpty) ? "Informe o e-mail" : null;
   }
 
   // Realiza a validação da senha
