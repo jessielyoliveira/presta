@@ -145,7 +145,18 @@ packages:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.3"
+=======
+    version: "2.0.2"
+  flutter_signin_button:
+    dependency: "direct main"
+    description:
+      name: flutter_signin_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+>>>>>>> origin/Ayslan
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -157,12 +168,17 @@ packages:
     source: sdk
     version: "0.0.0"
   font_awesome_flutter:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: transitive
+>>>>>>> origin/Ayslan
     description:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.1.0"
+<<<<<<< HEAD
   google_sign_in:
     dependency: "direct main"
     description:
@@ -184,6 +200,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.0+2"
+=======
+>>>>>>> origin/Ayslan
   http:
     dependency: transitive
     description:
@@ -204,7 +222,11 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.8.4"
+=======
+    version: "0.8.3+3"
+>>>>>>> origin/Ayslan
   image_picker_for_web:
     dependency: transitive
     description:
@@ -218,6 +240,7 @@ packages:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.4.1"
   intl:
     dependency: transitive
@@ -226,6 +249,9 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+=======
+    version: "2.3.0"
+>>>>>>> origin/Ayslan
   js:
     dependency: transitive
     description:

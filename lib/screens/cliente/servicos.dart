@@ -11,15 +11,22 @@ class _ServicosState extends State<Servicos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: getAppBar('Selecione a Categoria do Serviço'),
-        body: buildScreenCategorias(context),
-        bottomNavigationBar: getButtonNavigationBar());
+      //appBar: getAppBar('Selecione a Categoria do Serviço'),
+      body: buildScreenCategorias(context),
+      backgroundColor: Colors.amber,
+    );
+    //bottomNavigationBar: getButtonNavigationBar());
   }
 }
 
 /// Constrói a tela das categorias de serviço
 Widget buildScreenCategorias(BuildContext context) {
   return Column(children: [
+    Padding(padding: EdgeInsets.only(top: 50)),
+    Text(
+      'Escolha o tipo de serviço a ser prestado',
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
     Expanded(
       child: Container(
         margin: EdgeInsets.all(10),
@@ -42,9 +49,8 @@ List<Container> botoesCategorias(BuildContext context) {
         child: ElevatedButton(
           onPressed: () => direcionar(context, ListagemPrestadores()),
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(Colors.black),
-              backgroundColor:
-                  MaterialStateProperty.all(Colors.yellow.shade600)),
+              foregroundColor: MaterialStateProperty.all(Colors.amber),
+              backgroundColor: MaterialStateProperty.all(Colors.black)),
           child: Text(categoria, style: TextStyle(fontSize: 18)),
         ));
 

@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/prestador/TelaCadastro.dart';
 import 'package:presta/service/autenticacao.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(horizontal: 30),
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ]),
       ),
-    );
+    ));
   }
 
   // Gerador do campo de Login
