@@ -16,7 +16,7 @@ final List<String> imgList = [
 
 class AddServico extends StatefulWidget {
   final Prestador prestador;
-  AddServico({Key key, @required this.prestador}) : super(key: key);
+  AddServico({Key? key, required this.prestador}) : super(key: key);
   @override
   _AddServicoState createState() => _AddServicoState();
 }

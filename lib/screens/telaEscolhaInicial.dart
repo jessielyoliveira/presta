@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:presta/checa_autenticacao.dart';
 import 'package:presta/screens/cliente/home.dart';
-import 'package:presta/screens/login_screen.dart';
 
 import 'estrutura.dart';
 
@@ -40,7 +40,7 @@ class _EscolhaInicialState extends State<EscolhaInicial> {
           ),
           ElevatedButton.icon(
             onPressed: () {
-              direcionar(context, LoginScreen());
+              direcionar(context, ChecaAutenticacao());
             },
             label: Text('ACESSO PRESTADOR'),
             icon: Icon(Icons.handyman_sharp),

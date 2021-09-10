@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/perfil.dart';
+import 'package:presta/service/prestador_service.dart';
+
 
 class EscolherServicos extends StatefulWidget {
   @override
@@ -165,8 +168,9 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      direcionar(context, PerfilPrestador());
+                    onPressed: () async {
+                      direcionar(context,
+                          PerfilPrestador(prestador: getPrestadorLogado(context) as Prestador));
                     },
                     child: Text(
                       'Continuar',

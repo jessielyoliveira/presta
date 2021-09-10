@@ -5,10 +5,11 @@ import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/addServico.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 import 'package:presta/screens/prestador/verservico.dart';
+import 'package:presta/service/prestador_service.dart';
 
 class Portifolio extends StatefulWidget {
   final Prestador prestador;
-  Portifolio({Key key, @required this.prestador}) : super(key: key);
+  Portifolio({Key? key, required this.prestador}) : super(key: key);
 
   @override
   _PortifolioState createState() => _PortifolioState();
@@ -68,7 +69,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
                           },
                           child: const Text('Ver Mais'),
                         ),
@@ -95,7 +96,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
                           },
                           child: const Text('Ver Mais'),
                         ),
@@ -122,7 +123,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
                           },
                           child: const Text('Ver Mais'),
                         ),
@@ -149,7 +150,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
                           },
                           child: const Text('Ver Mais'),
                         ),
@@ -176,7 +177,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
                           },
                           child: const Text('Ver Mais'),
                         ),
@@ -203,7 +204,7 @@ class _PortifolioState extends State<Portifolio> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            direcionar(context, Servico());
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
                           },
                           child: const Text('Ver Mais'),
                         ),

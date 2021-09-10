@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/login_screen.dart';
 import 'package:presta/screens/prestador/configs.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
 import 'package:presta/service/autenticacao.dart';

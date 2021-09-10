@@ -1,7 +1,6 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:presta/checa_autenticacao.dart';
 import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/telaEscolhaInicial.dart';
 import 'package:presta/service/autenticacao.dart';
@@ -24,10 +23,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
-  // Widget build(BuildContext context) {    
-  //   return MaterialApp(home: ChecaAutenticacao());
   Widget build(BuildContext context) {
     return MaterialApp(home: EscolhaInicial());
   }

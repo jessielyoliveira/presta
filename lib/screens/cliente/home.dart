@@ -13,7 +13,7 @@ List<String> _cidades = <String>[
   'São Gonçalo do Amarante',
 ];
 
-String dropdownValue;
+String? dropdownValue;
 
 class Home extends StatefulWidget {
   @override
@@ -31,8 +31,8 @@ class _HomeState extends State<Home> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-            Colors.yellow[600],
-            Colors.yellow[100],
+            Colors.yellow[600]!,
+            Colors.yellow[100]!,
           ])),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30),
@@ -41,8 +41,8 @@ class _HomeState extends State<Home> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-              Colors.yellow[600],
-              Colors.yellow[100],
+              Colors.yellow[600]!,
+              Colors.yellow[100]!,
             ])),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                         );
                       }).toList(),
                       hint: Text('Escolha sua Cidade'),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         setState(() {
                           dropdownValue = value;
                         });

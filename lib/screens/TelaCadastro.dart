@@ -29,8 +29,8 @@ class _TelaCadastroState extends State<TelaCadastro> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-            Colors.yellow[600],
-            Colors.yellow[100],
+            Colors.yellow[600]!,
+            Colors.yellow[100]!,
           ])),
       child: Column(
         children: [
@@ -97,8 +97,8 @@ class _TelaCadastroState extends State<TelaCadastro> {
   }
 
   // Realiza a validação da senha
-  String _validaSenha(String text) {
-    return (text.isEmpty) ? "Informe a senha" : null;
+  String? _validaSenha(String? text) {
+    return (text!.isEmpty) ? "Informe a senha" : null;
   }
 
 // Gerador do campo de telefone

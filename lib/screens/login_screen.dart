@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/service/autenticacao.dart';
+import 'package:presta/service/prestador_service.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -100,12 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     criarConta();
-
-                    Prestador prestadorLogado = await context.read<PrestadorRepository>().get(
-                      context.read<Autenticacao>().usuario!.uid
-                    );
-
-                    direcionarPosLogin(context, prestadorLogado);
+                    direcionarPosLogin(context, getPrestadorLogado(context) as Prestador);
                   }
                 },
                 child: Text(
@@ -237,42 +232,5 @@ class _LoginScreenState extends State<LoginScreen> {
         .showSnackBar(SnackBar(content: Text(e.mensagem)));
     }
   }
-
-Future _loginGoogle(context) async {
-  // final usuarioGoogle = await GoogleSignInApi.login();
-
-  // if (usuarioGoogle == null) {
-  //   ScaffoldMessenger.of(context)
-  //     .showSnackBar(SnackBar(content: Text('Login falhou')));
-
-  // } else {
-    
-  //   List<QueryDocumentSnapshot<Prestador>> getPrestador = await prestadorRef
-  //     .limit(1)
-  //     .where('email', isEqualTo: usuarioGoogle.email)
-  //     .where('via_google', isEqualTo: true)
-  //     .where('senha', isNull: true)
-  //     .get().then((value) => value.docs);
-
-
-  //   if (getPrestador == null) {
-  //     prestadorRef.add(
-  //       Prestador(
-  //         id: 1,
-  //         nome: usuarioGoogle.displayName, 
-  //         email: usuarioGoogle.email, 
-  //         senha: null,
-  //         urlImagem: usuarioGoogle.photoUrl,
-  //         contato: null, 
-  //         loginViaGoogle: true
-  //       )
-  //     );
-  //   }
-    
-  //   direciona
-  //rPosLogin(context, getPrestador.last.data());    
-  }
+  
 }
-
-
-
