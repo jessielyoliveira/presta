@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/TelaCadastro.dart';
 import 'package:presta/service/autenticacao.dart';
@@ -93,9 +96,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(padding: EdgeInsets.only(bottom: 10)),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     criarConta();
+
+                    Prestador prestadorLogado = await context.read<PrestadorRepository>().get(
+                      context.read<Autenticacao>().usuario!.uid
+                    );
+
+                    direcionarPosLogin(context, prestadorLogado);
                   }
                 },
                 child: Text(
@@ -220,6 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void criarConta() async {
     try {
       await context.read<Autenticacao>().criarConta(email.text.trim(), senha.text.trim());
+      await context.read<PrestadorRepository>().save();
+
     } on AutenticacaoException catch (e) {
       ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(e.mensagem)));

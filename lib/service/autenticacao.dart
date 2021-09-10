@@ -11,9 +11,11 @@ class AutenticacaoException implements Exception {
 class Autenticacao extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? usuario;
+
   bool isLoading = true;
 
   final googleSignIn = GoogleSignIn();
+  // get getUsuario => this.usuario;
 
   Autenticacao() {
     _checaAutenticacao();

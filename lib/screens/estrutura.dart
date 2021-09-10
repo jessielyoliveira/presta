@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:presta/model/prestador.dart';
+import 'package:presta/screens/prestador/perfil.dart';
 
 /// Título do App
 String getTitleApp() => 'Presta';
@@ -31,4 +33,10 @@ void direcionar(BuildContext context, Widget widget) {
   Navigator.push(context,
     MaterialPageRoute(
         builder: (context) => widget));
+}
+
+void direcionarPosLogin(BuildContext context, Prestador prestadorLogado) {
+  Navigator.pushReplacement(context,
+    MaterialPageRoute(
+        builder: (context) => PerfilPrestador(prestador: prestadorLogado)));
 }

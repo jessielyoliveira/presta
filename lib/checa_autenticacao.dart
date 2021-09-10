@@ -33,7 +33,6 @@ class _ChecaAutenticacaoState extends State<ChecaAutenticacao> {
     );
   }
 
-
   Widget homne() {
     return Scaffold(
       body: Center(

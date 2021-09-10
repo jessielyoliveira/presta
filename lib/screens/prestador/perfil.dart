@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/login_screen.dart';
 import 'package:presta/screens/prestador/configs.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
+import 'package:presta/service/autenticacao.dart';
+import 'package:provider/provider.dart';
 
 class PerfilPrestador extends StatefulWidget {
   final Prestador prestador;
-  PerfilPrestador({Key key, @required this.prestador}) : super(key: key);
+  PerfilPrestador({Key? key, required this.prestador}) : super(key: key);
 
   @override
   _PerfilPrestadorState createState() => _PerfilPrestadorState();
@@ -55,7 +57,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 30)),
                 Text(
-                  widget.prestador.nome,
+                  widget.prestador.nome!,
                   style: TextStyle(
                       fontSize: 24,
                       color: Colors.black,
@@ -93,7 +95,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                         ),
                         textAlign: TextAlign.center),
                     Text(
-                      widget.prestador.quantServicos.toString(),
+                     '0',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
@@ -108,7 +110,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    direcionar(context, Portifolio(prestador: widget.prestador,));
+                    // direcionar(context, Portifolio(prestador: widget.prestador,));
                   },
                   child: const Text('Portifolio'),
                 ),
@@ -118,13 +120,18 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                 ),*/
                 ElevatedButton(
                   onPressed: () {
-                    direcionar(context, Configs(prestador: widget.prestador,));
+                    // direcionar(context, Configs(prestador: widget.prestador,));
                   },
                   child: const Text('Configurações'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    SystemNavigator.pop();
+                  onPressed: () async {
+                    await Provider.of<Autenticacao>(context).logout();
+
+                    // await widget.of read<Autenticacao>().logout();
+                    
+                    // Navigator.pushReplacement(context,
+                    //     MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   child: const Text('SAIR'),
                 ),
