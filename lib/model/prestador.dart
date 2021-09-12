@@ -1,17 +1,38 @@
-import 'package:presta/model/usuario.dart';
 
-class Prestador extends Usuario {
-  int quantServicos;
-  List<String> telefones;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  Prestador(quantServicos, telefones, nome, email, senha)
-      : this.quantServicos = quantServicos,
-        this.telefones = telefones,
-        super(nome, email, senha);
+class Prestador {
+  String idUsuario;
+  String? nome;
+  String? email;
+  String? urlImagem; 
+  String? contato;
 
-  get getQuantServicos => this.quantServicos;
-  set setQuantServicos(quantServicos) => this.quantServicos = quantServicos;
+  Prestador({required this.idUsuario, this.nome, required this.email, this.urlImagem, this.contato});
 
-  get getTelefones => this.telefones;
-  set setTelefones(telefones) => this.telefones = telefones;
+  Prestador.fromJson(Map<String, dynamic>? json)
+    : this(
+        idUsuario: json!['idUsuario'],
+        nome: json['nome'],
+        email: json['email'],
+        urlImagem: json['urlImagem'],
+        contato: json['contato'],
+      );
+
+
+  Map<String, dynamic> toJson() {
+    return {
+      'idUsuario': idUsuario,
+      'nome': nome,
+      'email': email, 
+      'urlImagem': urlImagem,
+      'contato': contato,
+    };
+  }
+  
 }
+  
+final prestadorRef = FirebaseFirestore.instance.collection('prestadores').withConverter<Prestador>(
+    fromFirestore: (snapshot, _) => Prestador.fromJson(snapshot.data()),
+    toFirestore: (prestador, _) => prestador.toJson(),
+  );

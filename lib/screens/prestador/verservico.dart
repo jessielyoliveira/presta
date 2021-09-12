@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
+import 'package:presta/service/prestador_service.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -15,7 +16,7 @@ final List<String> imgList = [
 
 class Servico extends StatefulWidget {
   final Prestador prestador;
-  Servico({Key key, @required this.prestador}) : super(key: key);
+  Servico({Key? key, required this.prestador}) : super(key: key);
   @override
   _ServicoState createState() => _ServicoState();
 }
@@ -31,7 +32,7 @@ class _ServicoState extends State<Servico> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, Portifolio(prestador: widget.prestador,));
+            direcionar(context, Portifolio(prestador: getPrestadorLogado(context) as Prestador));
           },
         ),
       ),

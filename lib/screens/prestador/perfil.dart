@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/configs.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
+import 'package:presta/service/autenticacao.dart';
+import 'package:provider/provider.dart';
 
 class PerfilPrestador extends StatefulWidget {
   final Prestador prestador;
-  PerfilPrestador({Key key, @required this.prestador}) : super(key: key);
+  PerfilPrestador({Key? key, required this.prestador}) : super(key: key);
 
   @override
   _PerfilPrestadorState createState() => _PerfilPrestadorState();
@@ -20,8 +22,9 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.amber,
-        title: Text("Perfil"),
+        //title: Text("   Perfil"),
         /*leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {},
@@ -55,7 +58,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 30)),
                 Text(
-                  widget.prestador.nome,
+                  widget.prestador.nome!,
                   style: TextStyle(
                       fontSize: 24,
                       color: Colors.black,
@@ -65,21 +68,6 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                     padding: EdgeInsets.only(
                   bottom: 10,
                 )),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Text('Média das avaliações: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center),
-                      Text(
-                        "4,85",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
                 Padding(
                     padding: EdgeInsets.only(
                   bottom: 10,
@@ -93,7 +81,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                         ),
                         textAlign: TextAlign.center),
                     Text(
-                      widget.prestador.quantServicos.toString(),
+                     '0',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
@@ -103,34 +91,92 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
               ],
             ),
           ),
-          Container(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    direcionar(context, Portifolio(prestador: widget.prestador,));
-                  },
-                  child: const Text('Portifolio'),
-                ),
-                /*ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Avaliações'),
-                ),*/
-                ElevatedButton(
-                  onPressed: () {
-                    direcionar(context, Configs(prestador: widget.prestador,));
-                  },
-                  child: const Text('Configurações'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    SystemNavigator.pop();
-                  },
-                  child: const Text('SAIR'),
-                ),
-              ],
-            ),
-          )
+          Padding(padding: EdgeInsets.all(10)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: IconButton(
+                      icon: const Icon(Icons.photo_album),
+                      //tooltip: 'Increase volume by 10',
+                      onPressed: () {
+                        direcionar(
+                          context,
+                          Portifolio(
+                            prestador: widget.prestador,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text('PORTIFÓLIO'),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: IconButton(
+                      icon: const Icon(Icons.settings),
+                      //tooltip: 'Increase volume by 10',
+                      onPressed: () {
+                        direcionar(
+                            context,
+                            Configs(
+                              prestador: widget.prestador,
+                            ));
+                      },
+                    ),
+                  ),
+                  Text('CONFIGURAÇÕES'),
+                ],
+              )
+            ],
+          ),
+          Padding(padding: EdgeInsets.all(30)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: IconButton(
+                      icon: const Icon(Icons.select_all),
+                      //tooltip: 'Increase volume by 10',
+                      onPressed: () {
+                        direcionar(
+                          context,
+                          EscolherServicos(),
+                        );
+                      },
+                    ),
+                  ),
+                  Text('MEUS SERVIÇOS'),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: IconButton(
+                      icon: const Icon(Icons.exit_to_app),
+                      //tooltip: 'Increase volume by 10',
+                      onPressed: () async {
+                        await Provider.of<Autenticacao>(context).logout();
+                      },
+                    ),
+                  ),
+                  Text('SAIR'),
+                ],
+              )
+            ],
+          ),
         ],
       ),
     );

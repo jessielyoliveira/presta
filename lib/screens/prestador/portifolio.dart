@@ -5,11 +5,12 @@ import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/addServico.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 import 'package:presta/screens/prestador/verservico.dart';
+import 'package:presta/service/prestador_service.dart';
 
 class Portifolio extends StatefulWidget {
-   final Prestador prestador;
-  Portifolio({Key key, @required this.prestador}) : super(key: key);
-  
+  final Prestador prestador;
+  Portifolio({Key? key, required this.prestador}) : super(key: key);
+
   @override
   _PortifolioState createState() => _PortifolioState();
 }
@@ -19,7 +20,7 @@ class _PortifolioState extends State<Portifolio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 3,
         backgroundColor: Colors.amber,
         title: Text("Portifólio"),
         leading: IconButton(
@@ -31,53 +32,185 @@ class _PortifolioState extends State<Portifolio> {
         actions: <Widget>[
           IconButton(
               onPressed: () {
-                direcionar(context, AddServico(prestador: widget.prestador,));
+                direcionar(
+                    context,
+                    AddServico(
+                      prestador: widget.prestador,
+                    ));
               },
-              icon: Icon(Icons.add))
+              icon: Icon(Icons.add)),
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
+          padding: EdgeInsets.all(5),
+          //color: Colors.amber,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Row(
+                children: [],
+              ),
               Card(
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                    direcionar(context, Servico(prestador: widget.prestador));
-                  },
-                  child: const SizedBox(
-                    width: double.maxFinite,
-                    height: 200,
-                    child: Text('Descriçao da obra'),
-                  ),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 6'),
+                      subtitle: Text(
+                        'Categoria: Macenaria',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
               Card(
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                    print('chama outra tela');
-                  },
-                  child: const SizedBox(
-                    width: double.maxFinite,
-                    height: 200,
-                    child: Text('Descriçao da obra'),
-                  ),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 5'),
+                      subtitle: Text(
+                        'Categoria: Alvenaria',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
               Card(
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                    print('chama outra tela');
-                  },
-                  child: const SizedBox(
-                    width: double.maxFinite,
-                    height: 200,
-                    child: Text('Descriçao da obra'),
-                  ),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 4'),
+                      subtitle: Text(
+                        'Categoria: Elétrica',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Card(
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 3'),
+                      subtitle: Text(
+                        'Categoria: Macenaria',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Card(
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 2'),
+                      subtitle: Text(
+                        'Categoria: Macenaria',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Card(
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Image.network(
+                          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                      title: const Text('Serviço Nº. 1'),
+                      subtitle: Text(
+                        'Categoria: Macenaria',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                          },
+                          child: const Text('Ver Mais'),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ],
