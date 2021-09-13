@@ -1,18 +1,14 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
+import 'package:image_picker/image_picker.dart';
 
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-];
+final List<String> imgList = [];
 
 class AddServico extends StatefulWidget {
   final Prestador prestador;
@@ -22,8 +18,12 @@ class AddServico extends StatefulWidget {
 }
 
 class _AddServicoState extends State<AddServico> {
+  final ImagePicker _picker = ImagePicker();
+  final List<XFile> _imageFileList = [];
+
   @override
   Widget build(BuildContext context) {
+    final double altura = MediaQuery.of(context).size.height / 2.5;
     //int contador = 0;
     return Scaffold(
       appBar: AppBar(
@@ -58,8 +58,11 @@ class _AddServicoState extends State<AddServico> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
-                      //adicionar imagepicker
+                    onPressed: () async {
+                      selectImages();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Imagens Adicionadas'),
+                      ));
                     },
                     label: Text(
                       'Adicionar da Galeria',
@@ -74,8 +77,11 @@ class _AddServicoState extends State<AddServico> {
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      //Adicionar imagePicker
+                    onPressed: () async {
+                      takePicture();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Imagem Adicionada'),
+                      ));
                     },
                     label: Text(
                       'Adicionar da Câmera',
@@ -91,7 +97,20 @@ class _AddServicoState extends State<AddServico> {
                   ),
                 ],
               ),
-              CarouselSlider(
+              Container(
+                height: altura,
+                width: 2 * altura,
+                padding: EdgeInsets.all(10),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _imageFileList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Image.file(File(_imageFileList[index].path));
+                  },
+                ),
+              ),
+
+              /*CarouselSlider(
                   options: CarouselOptions(
                     height: MediaQuery.of(context).size.height / 2.5,
                     aspectRatio: 16 / 9,
@@ -107,15 +126,15 @@ class _AddServicoState extends State<AddServico> {
                     scrollDirection: Axis.horizontal,
                   ),
                   items: imgList
-                      .map((item) => Container(
+                      .map((file) => Container(
                             child: Center(
-                                child: Image.network(
+                                child: Image.file(file)(
                               item,
                               fit: BoxFit.fitHeight,
                               width: MediaQuery.of(context).size.height,
                             )),
                           ))
-                      .toList()),
+                      .toList()),*/
               Padding(
                 padding: EdgeInsets.only(bottom: 18),
               ),
@@ -196,5 +215,24 @@ class _AddServicoState extends State<AddServico> {
         ),
       ),
     );
+  }
+
+  void selectImages() async {
+    final List<XFile> selectedImages = await _picker.pickMultiImage();
+    if (selectedImages.isNotEmpty) {
+      _imageFileList.addAll(selectedImages);
+    }
+    print("Image list lenght: " + _imageFileList.length.toString());
+
+    setState(() {});
+  }
+
+  void takePicture() async {
+    final XFile takedPhoto =
+        await _picker.pickImage(source: ImageSource.camera);
+    _imageFileList.add(takedPhoto);
+
+    print("Image list lenght: " + _imageFileList.length.toString());
+    setState(() {});
   }
 }

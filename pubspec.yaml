@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.7.0"
 
 dependencies:
   flutter_signin_button: ^2.0.0
@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   carousel_slider: ^4.0.0
   location: ^4.2.0
+  geolocator: ^7.6.0
+  geocoding: ^2.0.1
 
 
 dev_dependencies:

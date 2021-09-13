@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/login_screen.dart';
 
 class TelaCadastro extends StatefulWidget {
   @override
@@ -72,6 +73,20 @@ class _TelaCadastroState extends State<TelaCadastro> {
                 },
                 child: Text(
                   'Cadastre-se',
+                  style: TextStyle(color: Colors.yellowAccent),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
+              Container(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  direcionar(context, LoginScreen());
+                },
+                child: Text(
+                  'Voltar',
                   style: TextStyle(color: Colors.yellowAccent),
                 ),
                 style: ElevatedButton.styleFrom(

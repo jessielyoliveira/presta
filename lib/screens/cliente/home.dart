@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/cliente/servicos.dart';
 
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+
 List<String> _cidades = <String>[
   'Natal',
   'Ceará - Mirim',
@@ -21,6 +24,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Position _currentPosition;
+  String _currentAddress;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,13 +100,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
 
-              /*Divider(
-                height: 5,
-                thickness: 1,
-                //indent: 0,
-                //endIndent: 0,
-              ),
-              */
               Padding(padding: EdgeInsets.only(bottom: 25)),
               ElevatedButton(
                 onPressed: () {
@@ -115,24 +114,11 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
-              /*Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "OU",
-                textAlign: TextAlign.center,
-              ),
-              
-              Divider(
-                height: 5,
-                thickness: 5,
-                indent: 20,
-                endIndent: 20,
-              ),
-*/
-/*
+
               Padding(padding: EdgeInsets.only(bottom: 10)),
               ElevatedButton(
-                onPressed: () {
-                  direcionar(context, Servicos());
+                onPressed: () async {
+                  _getCurrentLocation();
                 },
                 child: Text(
                   'Usar Localizaçao Atual',
@@ -143,9 +129,39 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
-              */
+              if (_currentAddress != null) Text(_currentAddress),
+              //"LATITUDE: ${_currentPosition.latitude}, LONGITUDE: ${_currentPosition.longitude} "),
             ]),
       ),
     ));
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng();
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = placemarks[0];
+
+      setState(() {
+        _currentAddress = "${place.subAdministrativeArea}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
