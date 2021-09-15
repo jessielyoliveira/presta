@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
-import 'package:presta/screens/prestador/perfil.dart';
-import 'package:presta/service/prestador_service.dart';
-
+import 'package:presta/service/autenticacao.dart';
+import 'package:provider/provider.dart';
 
 class EscolherServicos extends StatefulWidget {
+  final Prestador prestador;
+  EscolherServicos({Key? key, required this.prestador}) : super(key: key);
   @override
   _EscolherServicosState createState() => _EscolherServicosState();
 }
@@ -18,8 +20,12 @@ class _EscolherServicosState extends State<EscolherServicos> {
   bool _valorPintura = false;
   bool _valorMarcenaria = false;
 
+  late Map<String, bool> _categorias;
+
   @override
   Widget build(BuildContext context) {
+    setEstadosCategorias();
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -52,8 +58,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: this._valorAlvenaria,
                 onSelected: (bool value) {
-                  _valorAlvenaria = value;
-                  setState(() {});
+                  setState(() {
+                    _valorAlvenaria = value;
+                    _categorias['alvenaria'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -73,8 +81,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: _valorEletrica,
                 onSelected: (bool value) {
-                  _valorEletrica = value;
-                  setState(() {});
+                  setState(() {
+                    _valorEletrica = value;
+                    _categorias['eletrica'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -94,8 +104,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: _valorHidraulica,
                 onSelected: (bool value) {
-                  _valorHidraulica = value;
-                  setState(() {});
+                  setState(() {
+                    _valorHidraulica = value;
+                    _categorias['hidraulica'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -115,8 +127,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: _valorVidracaria,
                 onSelected: (bool value) {
-                  _valorVidracaria = value;
-                  setState(() {});
+                  setState(() {
+                    _valorVidracaria = value;
+                    _categorias['vidracaria'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -136,8 +150,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: _valorPintura,
                 onSelected: (bool value) {
-                  _valorPintura = value;
-                  setState(() {});
+                  setState(() {
+                    _valorPintura = value;
+                    _categorias['pintura'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -157,8 +173,10 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 shape: StadiumBorder(side: BorderSide()),
                 selected: _valorMarcenaria,
                 onSelected: (bool value) {
-                  _valorMarcenaria = value;
-                  setState(() {});
+                  setState(() {
+                    _valorMarcenaria = value;
+                    _categorias['marcenaria'] = value;
+                  });
                 },
                 selectedColor: Colors.amber,
                 showCheckmark: true,
@@ -169,8 +187,17 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      direcionar(context,
-                          PerfilPrestador(prestador: getPrestadorLogado(context) as Prestador));
+                      context
+                          .read<PrestadorRepository>()
+                          .saveCategorias(widget.prestador.categorias!);
+
+                      await context
+                          .read<PrestadorRepository>()
+                          .getPrestadorUsuario(
+                              context.read<Autenticacao>().usuario!.uid);
+
+                      direcionarPosLogin(context,
+                          context.read<PrestadorRepository>().prestadorLogado!);
                     },
                     child: Text(
                       'Continuar',
@@ -188,5 +215,16 @@ class _EscolherServicosState extends State<EscolherServicos> {
             ]),
       ),
     );
+  }
+
+  void setEstadosCategorias() {
+    _categorias = widget.prestador.categorias!;
+
+    _valorAlvenaria = widget.prestador.categorias!['alvenaria'] as bool;
+    _valorEletrica = widget.prestador.categorias!['eletrica'] as bool;
+    _valorHidraulica = widget.prestador.categorias!['hidraulica'] as bool;
+    _valorMarcenaria = widget.prestador.categorias!['marcenaria'] as bool;
+    _valorPintura = widget.prestador.categorias!['pintura'] as bool;
+    _valorVidracaria = widget.prestador.categorias!['vidracaria'] as bool;
   }
 }

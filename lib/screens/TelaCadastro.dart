@@ -1,9 +1,18 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutter/services.dart';
+import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/escolherServicos.dart';
+import 'package:presta/service/autenticacao.dart';
+import 'package:provider/provider.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/login_screen.dart';
 
 class TelaCadastro extends StatefulWidget {
+  final Prestador? prestador;
+  TelaCadastro({Key? key, this.prestador}) : super(key: key);
+
   @override
   _TelaCadastroState createState() => _TelaCadastroState();
   final _tNome = TextEditingController();
@@ -18,6 +27,12 @@ class TelaCadastro extends StatefulWidget {
 class _TelaCadastroState extends State<TelaCadastro> {
   @override
   Widget build(BuildContext context) {
+    if (widget.prestador != null) {
+      widget._tNome.text = widget.prestador!.nome!;
+      widget._tLogin.text = widget.prestador!.email!;
+      widget._tTelefone.text = widget.prestador!.contato!;
+    }
+
     return Scaffold(
         //backgroundColor: Colors.amberAccent,
         body: SingleChildScrollView(
@@ -51,16 +66,15 @@ class _TelaCadastroState extends State<TelaCadastro> {
           Form(
             key: widget._formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _textFormFieldNome(),
-                _textFormFieldTelefone(),
-                _textFormFieldEmail(),
-                _textFormFieldSenha(),
-                _textFormFieldConfirmarSenha()
-              ],
-            ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _textFormFieldNome(),
+                  _textFormFieldTelefone(),
+                  _textFormFieldEmail(),
+                  _textFormFieldSenha(),
+                  _textFormFieldConfirmarSenha()
+                ]),
           ),
           Padding(padding: EdgeInsets.only(bottom: 10)),
           Row(
@@ -68,7 +82,16 @@ class _TelaCadastroState extends State<TelaCadastro> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  direcionar(context, EscolherServicos());
+                  if (widget._formKey.currentState!.validate()) {
+                    if (widget._tSenha.text.trim() !=
+                        widget._tConfirmarSenha.text.trim()) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                              Text('Os campos de senha devem ser iguais')));
+                    } else {
+                      criarConta();
+                    }
+                  }
                 },
                 child: Text(
                   'Cadastre-se',
@@ -79,18 +102,22 @@ class _TelaCadastroState extends State<TelaCadastro> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
+              Container(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  direcionar(context, LoginScreen());
+                },
+                child: Text(
+                  'Voltar',
+                  style: TextStyle(color: Colors.yellowAccent),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
             ],
           ),
-          Padding(padding: EdgeInsets.all(10)),
-          Text(
-            "Você também pode",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          SignInButton(
-            Buttons.GoogleDark,
-            text: "Cadastrar com Google",
-            onPressed: () {},
-          )
         ],
       ),
     )));
@@ -98,15 +125,22 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
   // Realiza a validação da senha
   String? _validaSenha(String? text) {
-    return (text!.isEmpty) ? "Informe a senha" : null;
+    if (text!.isEmpty) return "Informe a senha";
+    if (text.length < 6) return "A senha deve conter no mínimo 6 caracteres";
   }
 
 // Gerador do campo de telefone
   TextFormField _textFormFieldTelefone() {
     return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        TelefoneInputFormatter()
+      ],
       autofocus: false,
-      keyboardType: TextInputType.name,
       controller: widget._tTelefone,
+      validator: (text) {
+        if (text!.isEmpty) return "Informe o telefone";
+      },
       decoration: InputDecoration(
           labelText: "Telefone",
           labelStyle: TextStyle(color: Colors.black),
@@ -127,6 +161,9 @@ class _TelaCadastroState extends State<TelaCadastro> {
       autofocus: false,
       keyboardType: TextInputType.name,
       controller: widget._tNome,
+      validator: (text) {
+        if (text!.isEmpty) return "Informe o nome";
+      },
       decoration: InputDecoration(
           labelText: "Nome",
           labelStyle: TextStyle(color: Colors.black),
@@ -141,12 +178,20 @@ class _TelaCadastroState extends State<TelaCadastro> {
     );
   }
 
+  bool editaText(BuildContext context) {
+    return context.read<Autenticacao>().googleSignIn.currentUser == null;
+  }
+
 // Gerador do campo de Login
   TextFormField _textFormFieldEmail() {
     return TextFormField(
+      enabled: editaText(context),
       autofocus: false,
       keyboardType: TextInputType.emailAddress,
       controller: widget._tLogin,
+      validator: (text) {
+        if (text!.isEmpty) return "Informe o e-mail";
+      },
       decoration: InputDecoration(
           labelText: "E-mail",
           labelStyle: TextStyle(color: Colors.black),
@@ -162,7 +207,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
   }
 
 // Gerador do campo de Senha
-  TextFormField _textFormFieldSenha() {
+  _textFormFieldSenha() {
+    if (context.read<Autenticacao>().googleSignIn.currentUser != null) {
+      return Container();
+    }
+
     return TextFormField(
       autofocus: false,
       keyboardType: TextInputType.text,
@@ -185,7 +234,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
   }
 
   // Gerador do campo de confirmar Senha
-  TextFormField _textFormFieldConfirmarSenha() {
+  _textFormFieldConfirmarSenha() {
+    if (context.read<Autenticacao>().googleSignIn.currentUser != null) {
+      return Container();
+    }
+
     return TextFormField(
       autofocus: false,
       keyboardType: TextInputType.text,
@@ -205,5 +258,56 @@ class _TelaCadastroState extends State<TelaCadastro> {
             UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
       ),
     );
+  }
+
+  void criarConta() async {
+    try {
+      Prestador p;
+
+      if (context.read<Autenticacao>().googleSignIn.currentUser == null) {
+        await context
+            .read<Autenticacao>()
+            .criarConta(widget._tLogin.text.trim(), widget._tSenha.text.trim());
+
+        p = Prestador(
+            idUsuario: context.read<Autenticacao>().usuario!.uid,
+            nome: widget._tNome.text.trim(),
+            email: widget._tLogin.text.trim(),
+            urlImagem: "",
+            contato: widget._tTelefone.text.trim(),
+            categorias: mapCategorias,
+            disponivel: false);
+      } else {
+        Autenticacao a = context.read<Autenticacao>();
+        p = Prestador(
+            idUsuario: a.usuario!.uid,
+            nome: widget._tNome.text.trim(),
+            email: a.usuario!.email,
+            urlImagem: widget.prestador!.urlImagem,
+            contato: widget._tTelefone.text.trim(),
+            categorias: mapCategorias,
+            disponivel: widget.prestador!.disponivel);
+      }
+
+      await context.read<PrestadorRepository>().savePrestador(p);
+
+      await context
+          .read<PrestadorRepository>()
+          .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Usuário criado')));
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EscolherServicos(
+                    prestador:
+                        context.read<PrestadorRepository>().prestadorLogado!,
+                  )));
+    } on AutenticacaoException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.mensagem)));
+    }
   }
 }

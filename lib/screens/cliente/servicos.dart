@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:presta/screens/cliente/listagem_prestadores.dart';
-import 'package:presta/screens/estrutura.dart';
 
 class Servicos extends StatefulWidget {
   @override
@@ -47,7 +45,9 @@ List<Container> botoesCategorias(BuildContext context) {
     var botao = Container(
         margin: EdgeInsets.all(5),
         child: ElevatedButton(
-          onPressed: () => direcionar(context, ListagemPrestadores()),
+          onPressed: () {
+            // direcionar(context, ListagemPrestadores());
+          },
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all(Colors.amber),
               backgroundColor: MaterialStateProperty.all(Colors.black)),

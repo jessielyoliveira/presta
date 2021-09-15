@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/database/db_firestore.dart';
@@ -9,6 +8,7 @@ class PrestadorRepository extends ChangeNotifier {
   // List<Moeda> _lista = [];
   late FirebaseFirestore db;
   late Autenticacao auth;
+  Prestador? prestadorLogado;
 
   PrestadorRepository({required this.auth}) {
     _startRepository();
@@ -39,24 +39,27 @@ class PrestadorRepository extends ChangeNotifier {
 
   // UnmodifiableListView<Moeda> get lista => UnmodifiableListView(_lista);
 
-  save() {
-    prestadorRef.add(
-      Prestador(
-        idUsuario: auth.usuario!.uid,
-        nome: auth.usuario!.displayName,
-        email: auth.usuario!.email,
-        urlImagem: auth.usuario!.photoURL,
-        contato: auth.usuario!.phoneNumber
-      )
-    );
+  savePrestador(Prestador prestador) async {
+    await prestadorRef.doc(auth.usuario!.uid).set(prestador);
+    notifyListeners();
+  }
+
+  saveCategorias(Map<String, bool> categorias) async {
+    await FirebaseFirestore.instance
+        .collection('prestadores')
+        .doc(auth.usuario!.uid)
+        .set({"categorias": categorias}, SetOptions(merge: true));
 
     notifyListeners();
   }
 
-  get(idUsuario) async {
-    await prestadorRef.where('idUsuario', isEqualTo: auth.usuario!.uid).get().then((value) =>
-      value.docs.single.data()
-    );
+  getPrestadorUsuario(idUsuario) async {
+    prestadorLogado = await prestadorRef
+        .doc(auth.usuario!.uid)
+        .get()
+        .then((value) => value.data());
+
+    notifyListeners();
   }
 
   // saveAll(List<Moeda> moedas) {
@@ -84,4 +87,5 @@ class PrestadorRepository extends ChangeNotifier {
   //   _lista.remove(moeda);
   //   notifyListeners();
   // }
+
 }
