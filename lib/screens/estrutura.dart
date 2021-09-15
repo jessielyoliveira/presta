@@ -30,13 +30,12 @@ List<BottomNavigationBarItem> botoesNavegacao() => [
 
 /// Direciona para a tela passada por parâmetro
 void direcionar(BuildContext context, Widget widget) {
-  Navigator.push(context,
-    MaterialPageRoute(
-        builder: (context) => widget));
+  Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 }
 
 void direcionarPosLogin(BuildContext context, Prestador prestadorLogado) {
-  Navigator.pushReplacement(context,
-    MaterialPageRoute(
-        builder: (context) => PerfilPrestador(prestador: prestadorLogado)));
+  Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => PerfilPrestador(prestador: prestadorLogado)));
 }

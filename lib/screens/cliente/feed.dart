@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
-//import 'package:presta/screens/prestador/addServico.dart';
 import 'package:presta/screens/prestador/perfil.dart';
 import 'package:presta/screens/prestador/verservico.dart';
-import 'package:presta/service/prestador_service.dart';
+import 'package:provider/provider.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _FeedState extends State<Feed> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded),
             onPressed: () {
-              direcionar(context, PerfilPrestador(prestador: getPrestadorLogado(context) as Prestador,));
+              direcionar(context, PerfilPrestador(prestador: context.read<PrestadorRepository>().prestadorLogado!));
             },
           ),
         ),
@@ -55,7 +54,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -83,7 +82,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -111,7 +110,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -139,7 +138,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -167,7 +166,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -195,7 +194,7 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: getPrestadorLogado(context) as Prestador,));
+                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
                             },
                             child: const Text('Ver Mais'),
                           ),

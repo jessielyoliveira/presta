@@ -7,15 +7,12 @@ class AutenticacaoException implements Exception {
   AutenticacaoException(this.mensagem);
 }
 
-
 class Autenticacao extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? usuario;
-
   bool isLoading = true;
 
   final googleSignIn = GoogleSignIn();
-  // get getUsuario => this.usuario;
 
   Autenticacao() {
     _checaAutenticacao();
@@ -24,10 +21,8 @@ class Autenticacao extends ChangeNotifier {
   _checaAutenticacao() {
     _auth.authStateChanges().listen((User? u) {
       usuario = (u == null) ? null : u;
-      isLoading = false;
-
       notifyListeners();
-     });
+    });
   }
 
   _getUser() {
@@ -60,20 +55,22 @@ class Autenticacao extends ChangeNotifier {
     final googleAutenticacao = await googleUsuario.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAutenticacao.accessToken,
-      idToken: googleAutenticacao.idToken
-    );
+        accessToken: googleAutenticacao.accessToken,
+        idToken: googleAutenticacao.idToken);
 
     await _auth.signInWithCredential(credential);
     _getUser();
-    notifyListeners();
   }
 
-  
   logout() async {
-    googleSignIn.disconnect();
-    await _auth.signOut();
+    if (googleSignIn.currentUser != null) {
+      await googleSignIn.disconnect();
+    }
+
+    if (_auth.currentUser != null) {
+      await _auth.signOut();
+    }
+
     _getUser();
   }
-
 }

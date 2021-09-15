@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/login_screen.dart';
+import 'package:presta/screens/prestador/perfil.dart';
 import 'package:presta/service/autenticacao.dart';
 import 'package:provider/provider.dart';
 
 class ChecaAutenticacao extends StatefulWidget {
-  const ChecaAutenticacao({ Key? key }) : super(key: key);
+  const ChecaAutenticacao({Key? key}) : super(key: key);
 
   @override
   _ChecaAutenticacaoState createState() => _ChecaAutenticacaoState();
@@ -13,34 +16,34 @@ class ChecaAutenticacao extends StatefulWidget {
 class _ChecaAutenticacaoState extends State<ChecaAutenticacao> {
   @override
   Widget build(BuildContext context) {
+    Autenticacao autenticacao = context.read<Autenticacao>();
 
-    Autenticacao autenticacao = Provider.of<Autenticacao>(context);
-
-    if (autenticacao.isLoading) {
-      return loading();
-    } else if (autenticacao.usuario == null) {
+    if (autenticacao.usuario == null) {
       return LoginScreen();
     } else {
-      return homne();
+      return FutureBuilder(
+          future: carregaPrestadorLogado(autenticacao),
+          builder: (context, snapshot) {
+            Prestador? p = context.read<PrestadorRepository>().prestadorLogado;
+            if (p != null) {
+              return PerfilPrestador(prestador: p);
+            } else {
+              return loading();
+            }
+          });
     }
+  }
+
+  carregaPrestadorLogado(Autenticacao autenticacao) async {
+    await context
+        .read<PrestadorRepository>()
+        .getPrestadorUsuario(autenticacao.usuario!.uid);
   }
 
   Widget loading() {
     return Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  Widget homne() {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () async {
-            await context.read<Autenticacao>().logout();
-          }, 
-          child: Text('saiu'))
       ),
     );
   }

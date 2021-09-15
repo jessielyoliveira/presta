@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
 import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
+import 'package:presta/screens/login_screen.dart';
 import 'package:presta/screens/prestador/configs.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
 import 'package:presta/service/autenticacao.dart';
@@ -51,8 +52,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                   children: [
                     CircleAvatar(
                       radius: 90,
-                      backgroundImage: NetworkImage(
-                          'https://t3.ftcdn.net/jpg/03/91/19/22/360_F_391192211_2w5pQpFV1aozYQhcIw3FqA35vuTxJKrB.jpg'),
+                      backgroundImage: NetworkImage(widget.prestador.urlImagem!),
                     ),
                   ],
                 ),
@@ -75,17 +75,18 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Total de Serviços Prestados: ',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center),
-                    Text(
-                     '0',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
+                    Text(widget.prestador.email!)
+                    // Text('Total de Serviços Prestados: ',
+                    //     style: TextStyle(
+                    //       color: Colors.black,
+                    //     ),
+                    //     textAlign: TextAlign.center),
+                    // Text(
+                    //  '0',
+                    //   style: TextStyle(
+                    //       color: Colors.black, fontWeight: FontWeight.bold),
+                    //   textAlign: TextAlign.center,
+                    // ),
                   ],
                 ),
               ],
@@ -152,7 +153,7 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                       onPressed: () {
                         direcionar(
                           context,
-                          EscolherServicos(),
+                          EscolherServicos(prestador: widget.prestador),
                         );
                       },
                     ),
@@ -168,7 +169,8 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                       icon: const Icon(Icons.exit_to_app),
                       //tooltip: 'Increase volume by 10',
                       onPressed: () async {
-                        await Provider.of<Autenticacao>(context).logout();
+                        await context.read<Autenticacao>().logout();
+                        direcionar(context, LoginScreen());
                       },
                     ),
                   ),
@@ -181,4 +183,5 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
       ),
     );
   }
+
 }
