@@ -40,18 +40,20 @@ class PrestadorRepository extends ChangeNotifier {
   // UnmodifiableListView<Moeda> get lista => UnmodifiableListView(_lista);
 
   savePrestador(Prestador prestador) async {
-    await prestadorRef.doc(auth.usuario!.uid).set(prestador);
-    notifyListeners();
-  }
-
-  saveCategorias(Map<String, bool> categorias) async {
-    await FirebaseFirestore.instance
-        .collection('prestadores')
+    await prestadorRef
         .doc(auth.usuario!.uid)
-        .set({"categorias": categorias}, SetOptions(merge: true));
-
+        .set(prestador, SetOptions(merge: true));
     notifyListeners();
   }
+
+  // saveCategorias(Map<String, bool> categorias) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('prestadores')
+  //       .doc(auth.usuario!.uid)
+  //       .set({"categorias": categorias}, SetOptions(merge: true));
+
+  //   notifyListeners();
+  // }
 
   getPrestadorUsuario(idUsuario) async {
     prestadorLogado = await prestadorRef

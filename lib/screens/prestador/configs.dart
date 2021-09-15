@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/perfil.dart';
+import 'package:provider/provider.dart';
 
 class Configs extends StatefulWidget {
   final Prestador prestador;
@@ -12,9 +14,13 @@ class Configs extends StatefulWidget {
 }
 
 class _ConfigsState extends State<Configs> {
-  bool isSwitched = false;
+  late bool isSwitched;
+
   @override
   Widget build(BuildContext context) {
+
+    isSwitched = widget.prestador.disponivel;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -42,7 +48,10 @@ class _ConfigsState extends State<Configs> {
               onChanged: (value) {
                 setState(() {
                   isSwitched = value;
-                  print(isSwitched);
+                  widget.prestador.disponivel = isSwitched;
+
+                  context.read<PrestadorRepository>().savePrestador(widget.prestador);
+
                 });
               }),
           const Divider(

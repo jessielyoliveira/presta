@@ -62,7 +62,7 @@ final prestadorRef = FirebaseFirestore.instance
       toFirestore: (prestador, _) => prestador.toJson(),
     );
 
-const Map<String, bool> mapCategorias = {
+Map<String, bool> mapCategorias = {
   "alvenaria": false,
   "eletrica": false,
   "hidraulica": false,

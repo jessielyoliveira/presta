@@ -241,17 +241,13 @@ class _LoginScreenState extends State<LoginScreen> {
             categorias: mapCategorias,
             disponivel: false);
 
-        await context.read<PrestadorRepository>().savePrestador(p);
+        // await context.read<PrestadorRepository>().savePrestador(p);
 
-        await context
-            .read<PrestadorRepository>()
-            .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
+        // await context
+        //     .read<PrestadorRepository>()
+        //     .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
 
-        direcionar(
-            context,
-            TelaCadastro(
-              prestador: context.read<PrestadorRepository>().prestadorLogado!,
-            ));
+        direcionar(context, TelaCadastro(prestador: p));
       } else {
         if (context.read<PrestadorRepository>().prestadorLogado!.categorias ==
             null) {

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class EscolherServicos extends StatefulWidget {
   final Prestador prestador;
   EscolherServicos({Key? key, required this.prestador}) : super(key: key);
+
   @override
   _EscolherServicosState createState() => _EscolherServicosState();
 }
@@ -20,7 +21,7 @@ class _EscolherServicosState extends State<EscolherServicos> {
   bool _valorPintura = false;
   bool _valorMarcenaria = false;
 
-  late Map<String, bool> _categorias;
+  Map<String, bool> _categorias = {};
 
   @override
   Widget build(BuildContext context) {
@@ -187,17 +188,22 @@ class _EscolherServicosState extends State<EscolherServicos> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
+
+                      widget.prestador.categorias = _categorias;
+
                       context
                           .read<PrestadorRepository>()
-                          .saveCategorias(widget.prestador.categorias!);
+                          .savePrestador(widget.prestador);
 
-                      await context
-                          .read<PrestadorRepository>()
-                          .getPrestadorUsuario(
-                              context.read<Autenticacao>().usuario!.uid);
+                      // await context
+                      //     .read<PrestadorRepository>()
+                      //     .getPrestadorUsuario(
+                      //         context.read<Autenticacao>().usuario!.uid);
 
-                      direcionarPosLogin(context,
-                          context.read<PrestadorRepository>().prestadorLogado!);
+                      // direcionarPosLogin(context,
+                      //     context.read<PrestadorRepository>().prestadorLogado!);
+
+                      direcionarPosLogin(context, widget.prestador);
                     },
                     child: Text(
                       'Continuar',
