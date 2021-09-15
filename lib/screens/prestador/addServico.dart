@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/model/servico.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 final List<String> imgList = [];
 
@@ -19,6 +22,11 @@ class AddServico extends StatefulWidget {
 class _AddServicoState extends State<AddServico> {
   final ImagePicker _picker = ImagePicker();
   final List<XFile> _imageFileList = [];
+
+  TextEditingController descricao = TextEditingController();
+  TextEditingController duracao = TextEditingController();
+
+  late Servico servico = Servico();
 
   @override
   Widget build(BuildContext context) {
@@ -154,36 +162,36 @@ class _AddServicoState extends State<AddServico> {
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-
                   hintText: 'Digite aqui',
                   //helperText: 'Texto de ajuda',
                   labelText: 'Descrição',
                 ),
+                controller: descricao,
                 maxLines: 4,
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 18),
               ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Ex.: Natal-RN',
-                  //helperText: 'Texto de ajuda',
-                  labelText: 'Local',
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 18),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Ex.: João',
-                  //helperText: 'Texto de ajuda',
-                  labelText: 'Cliente',
-                ),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: 18)),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     hintText: 'Ex.: Natal-RN',
+              //     //helperText: 'Texto de ajuda',
+              //     labelText: 'Local',
+              //   ),
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(bottom: 18),
+              // ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     hintText: 'Ex.: João',
+              //     //helperText: 'Texto de ajuda',
+              //     labelText: 'Cliente',
+              //   ),
+              // ),
+              // Padding(padding: EdgeInsets.only(bottom: 18)),
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -191,11 +199,27 @@ class _AddServicoState extends State<AddServico> {
                   //helperText: 'Texto de ajuda',
                   labelText: 'Tempo de Duração',
                 ),
+                controller: duracao,
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
               ElevatedButton.icon(
                 onPressed: () {
-                  //adicionar imagepicker
+                  if (descricao.text.isEmpty || duracao.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Preencha as informações do serviço")));
+                  } else {
+                    Servico servico = Servico(
+                        descricao: descricao.text.trim(),
+                        duracao: duracao.text.trim());
+
+                    context
+                        .read<PrestadorRepository>()
+                        .adicionaServico(servico);
+                    inicializaCampos();
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Serviço adicionado")));
+                  }
                 },
                 label: Text(
                   'Adicionar',
@@ -233,5 +257,10 @@ class _AddServicoState extends State<AddServico> {
 
     print("Image list lenght: " + _imageFileList.length.toString());
     setState(() {});
+  }
+
+  inicializaCampos() {
+    descricao.text = "";
+    duracao.text = "";
   }
 }

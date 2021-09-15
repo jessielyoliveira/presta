@@ -52,7 +52,8 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                   children: [
                     CircleAvatar(
                       radius: 90,
-                      backgroundImage: NetworkImage(widget.prestador.urlImagem!),
+                      backgroundImage:
+                          NetworkImage(widget.prestador.urlImagem!),
                     ),
                   ],
                 ),
@@ -183,5 +184,4 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
       ),
     );
   }
-
 }

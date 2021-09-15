@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/database/db_firestore.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/model/servico.dart';
 import 'package:presta/service/autenticacao.dart';
 
 class PrestadorRepository extends ChangeNotifier {
@@ -40,15 +41,28 @@ class PrestadorRepository extends ChangeNotifier {
   // UnmodifiableListView<Moeda> get lista => UnmodifiableListView(_lista);
 
   savePrestador(Prestador prestador) async {
-    await prestadorRef.doc(auth.usuario!.uid).set(prestador);
+    await prestadorRef
+        .doc(auth.usuario!.uid)
+        .set(prestador, SetOptions(merge: true));
     notifyListeners();
   }
 
-  saveCategorias(Map<String, bool> categorias) async {
-    await FirebaseFirestore.instance
-        .collection('prestadores')
-        .doc(auth.usuario!.uid)
-        .set({"categorias": categorias}, SetOptions(merge: true));
+  adicionaServico(Servico servico) async {
+    await db
+        .collection("prestadores/${auth.usuario!.uid}/servicos")
+        .get()
+        .then((value) {
+      servico.id = (value.size + 1).toString();
+    }).whenComplete(() async {
+      await db
+          .collection('prestadores/${auth.usuario!.uid}/servicos')
+          .withConverter<Servico>(
+            fromFirestore: (snapshot, _) => Servico.fromJson(snapshot.data()),
+            toFirestore: (serv, _) => serv.toJson(),
+          )
+          .doc(servico.id)
+          .set(servico, SetOptions(merge: true));
+    });
 
     notifyListeners();
   }

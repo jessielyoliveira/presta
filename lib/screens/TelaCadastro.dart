@@ -261,39 +261,35 @@ class _TelaCadastroState extends State<TelaCadastro> {
   }
 
   void criarConta() async {
-    try {
-      Prestador p;
+    // try {
+    Prestador p;
 
-      if (context.read<Autenticacao>().googleSignIn.currentUser == null) {
-        await context
-            .read<Autenticacao>()
-            .criarConta(widget._tLogin.text.trim(), widget._tSenha.text.trim());
+    if (context.read<Autenticacao>().googleSignIn.currentUser == null) {
+      await context
+          .read<Autenticacao>()
+          .criarConta(widget._tLogin.text.trim(), widget._tSenha.text.trim());
 
-        p = Prestador(
-            idUsuario: context.read<Autenticacao>().usuario!.uid,
-            nome: widget._tNome.text.trim(),
-            email: widget._tLogin.text.trim(),
-            urlImagem: "",
-            contato: widget._tTelefone.text.trim(),
-            categorias: mapCategorias,
-            disponivel: false);
-      } else {
-        Autenticacao a = context.read<Autenticacao>();
-        p = Prestador(
-            idUsuario: a.usuario!.uid,
-            nome: widget._tNome.text.trim(),
-            email: a.usuario!.email,
-            urlImagem: widget.prestador!.urlImagem,
-            contato: widget._tTelefone.text.trim(),
-            categorias: mapCategorias,
-            disponivel: widget.prestador!.disponivel);
-      }
+      p = Prestador(
+          idUsuario: context.read<Autenticacao>().usuario!.uid,
+          nome: widget._tNome.text.trim(),
+          email: widget._tLogin.text.trim(),
+          urlImagem: "",
+          contato: widget._tTelefone.text.trim(),
+          categorias: mapCategorias,
+          disponivel: false);
+    } else {
+      // Autenticacao a = context.read<Autenticacao>();
 
-      await context.read<PrestadorRepository>().savePrestador(p);
+      widget.prestador!.nome = widget._tNome.text.trim();
+      widget.prestador!.contato = widget._tTelefone.text.trim();
 
       await context
           .read<PrestadorRepository>()
-          .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
+          .savePrestador(widget.prestador!);
+
+      // await context
+      //     .read<PrestadorRepository>()
+      //     .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
 
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Usuário criado')));
@@ -302,12 +298,12 @@ class _TelaCadastroState extends State<TelaCadastro> {
           context,
           MaterialPageRoute(
               builder: (context) => EscolherServicos(
-                    prestador:
-                        context.read<PrestadorRepository>().prestadorLogado!,
+                    prestador: widget.prestador!,
                   )));
-    } on AutenticacaoException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.mensagem)));
+      // } on AutenticacaoException catch (e) {
+      //   ScaffoldMessenger.of(context)
+      //       .showSnackBar(SnackBar(content: Text(e.mensagem)));
+      // }
     }
   }
 }
