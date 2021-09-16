@@ -10,7 +10,7 @@ import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/login_screen.dart';
 
 class TelaCadastro extends StatefulWidget {
-  final Prestador? prestador;
+  Prestador? prestador;
   TelaCadastro({Key? key, this.prestador}) : super(key: key);
 
   @override
@@ -273,16 +273,19 @@ class _TelaCadastroState extends State<TelaCadastro> {
           idUsuario: context.read<Autenticacao>().usuario!.uid,
           nome: widget._tNome.text.trim(),
           email: widget._tLogin.text.trim(),
-          urlImagem: "",
+          urlImagem: "https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png",
           contato: widget._tTelefone.text.trim(),
           categorias: mapCategorias,
           disponivel: false);
+
+          widget.prestador = p;
     } else {
       // Autenticacao a = context.read<Autenticacao>();
 
       widget.prestador!.nome = widget._tNome.text.trim();
       widget.prestador!.contato = widget._tTelefone.text.trim();
 
+    }
       await context
           .read<PrestadorRepository>()
           .savePrestador(widget.prestador!);
@@ -306,4 +309,3 @@ class _TelaCadastroState extends State<TelaCadastro> {
       // }
     }
   }
-}
