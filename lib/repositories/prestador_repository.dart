@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/database/db_firestore.dart';
@@ -6,7 +8,7 @@ import 'package:presta/model/servico.dart';
 import 'package:presta/service/autenticacao.dart';
 
 class PrestadorRepository extends ChangeNotifier {
-  // List<Moeda> _lista = [];
+  List<Servico> _lista = [];
   late FirebaseFirestore db;
   late Autenticacao auth;
   Prestador? prestadorLogado;
@@ -17,29 +19,36 @@ class PrestadorRepository extends ChangeNotifier {
 
   _startRepository() async {
     await _startFirestore();
-    // await _readFavoritas();
+    await listaServicos();
   }
 
   _startFirestore() {
     db = DBFirestore.get();
   }
 
-  // _readFavoritas() async {
-  //   if (auth.usuario != null && _lista.isEmpty) {
-  //     final snapshot =
-  //         await db.collection('usuarios/${auth.usuario!.uid}/favoritas').get();
+  // Atualiza a lista de serviços
+  listaServicos() async {
+    _lista = [];
+    if (auth.usuario != null && _lista.isEmpty) {
+      final snapshot = await db
+          .collection('prestadores/${auth.usuario!.uid}/servicos')
+          .withConverter<Servico>(
+            fromFirestore: (snapshot, _) => Servico.fromJson(snapshot.data()),
+            toFirestore: (serv, _) => serv.toJson(),
+          )
+          .get();
 
-  //     snapshot.docs.forEach((doc) {
-  //       Moeda moeda = MoedaRepository.tabela
-  //           .firstWhere((moeda) => moeda.sigla == doc.get('sigla'));
-  //       _lista.add(moeda);
-  //       notifyListeners();
-  //     });
-  //   }
-  // }
+      snapshot.docs.forEach((serv) {
+        _lista.add(serv.data());
+      });
 
-  // UnmodifiableListView<Moeda> get lista => UnmodifiableListView(_lista);
+      notifyListeners();
+    }
+  }
 
+  UnmodifiableListView<Servico> get lista => UnmodifiableListView(_lista);
+
+  // Armazena o prestador
   savePrestador(Prestador prestador) async {
     await prestadorRef
         .doc(auth.usuario!.uid)
@@ -47,6 +56,7 @@ class PrestadorRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Adiciona um serviço ao prestador
   adicionaServico(Servico servico) async {
     await db
         .collection("prestadores/${auth.usuario!.uid}/servicos")
@@ -67,6 +77,7 @@ class PrestadorRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Atualiza o prestador logado.
   getPrestadorUsuario(idUsuario) async {
     prestadorLogado = await prestadorRef
         .doc(auth.usuario!.uid)

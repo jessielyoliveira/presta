@@ -43,7 +43,8 @@ class _AddServicoState extends State<AddServico> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Colors.black,
-          onPressed: () {
+          onPressed: () async {
+            await context.read<PrestadorRepository>().listaServicos();
             direcionar(
                 context,
                 Portifolio(
@@ -217,8 +218,8 @@ class _AddServicoState extends State<AddServico> {
                         .adicionaServico(servico);
                     inicializaCampos();
 
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Serviço adicionado")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Serviço adicionado")));
                   }
                 },
                 label: Text(

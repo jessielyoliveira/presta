@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/escolherServicos.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/login_screen.dart';
@@ -105,7 +106,8 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                     child: IconButton(
                       icon: const Icon(Icons.photo_album),
                       //tooltip: 'Increase volume by 10',
-                      onPressed: () {
+                      onPressed: () async {
+                        await context.read<PrestadorRepository>().listaServicos();
                         direcionar(
                           context,
                           Portifolio(
