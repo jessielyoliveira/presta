@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:presta/model/prestador.dart';
+import 'package:presta/model/servico.dart';
 import 'package:presta/repositories/prestador_repository.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/prestador/portifolio.dart';
@@ -15,16 +16,22 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
 
-class Servico extends StatefulWidget {
+class DetalheServico extends StatefulWidget {
   final Prestador prestador;
-  Servico({Key? key, required this.prestador}) : super(key: key);
+  final int indexServico;
+  DetalheServico({Key? key, required this.prestador, required this.indexServico,}) : super(key: key);
   @override
-  _ServicoState createState() => _ServicoState();
+  _DetalheServicoState createState() => _DetalheServicoState();
 }
 
-class _ServicoState extends State<Servico> {
+class _DetalheServicoState extends State<DetalheServico> {
+
+
   @override
   Widget build(BuildContext context) {
+
+    Servico servicoSelecionado = context.read<PrestadorRepository>().lista[widget.indexServico];
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -33,7 +40,7 @@ class _ServicoState extends State<Servico> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            direcionar(context, Portifolio(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+            direcionar(context, Portifolio(prestador: widget.prestador));
           },
         ),
       ),
@@ -79,8 +86,7 @@ class _ServicoState extends State<Servico> {
               Padding(
                 padding: EdgeInsets.all(10),
               ),
-              Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              Text('${servicoSelecionado.descricao}',
                 textAlign: TextAlign.justify,
               ),
               Padding(
@@ -113,7 +119,7 @@ class _ServicoState extends State<Servico> {
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
-                      Text('4 dias'),
+                      Text('${servicoSelecionado.duracao}'),
                     ],
                   ),
                 ],
