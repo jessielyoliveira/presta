@@ -107,7 +107,9 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                       icon: const Icon(Icons.photo_album),
                       //tooltip: 'Increase volume by 10',
                       onPressed: () async {
-                        await context.read<PrestadorRepository>().listaServicos();
+                        await context
+                            .read<PrestadorRepository>()
+                            .listaServicos();
                         direcionar(
                           context,
                           Portifolio(
@@ -173,7 +175,11 @@ class _PerfilPrestadorState extends State<PerfilPrestador> {
                       //tooltip: 'Increase volume by 10',
                       onPressed: () async {
                         await context.read<Autenticacao>().logout();
-                        direcionar(context, LoginScreen());
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
                       },
                     ),
                   ),

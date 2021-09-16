@@ -50,21 +50,21 @@ class _PortifolioState extends State<Portifolio> {
               shrinkWrap: true,
               itemCount: context.read<PrestadorRepository>().lista.length,
               itemBuilder: (context, i) {
-                return buildServicoItem();
+                return buildServicoItem(i);
               }),
         ),
       ),
     );
   }
 
-  Widget buildServicoItem() => Card(
+  Widget buildServicoItem(i) => Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: [
             ListTile(
               leading: Image.network(
                   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
-              title: const Text('Serviço Nº. 6'),
+              title: Text('Serviço ${i+1}'),
               subtitle: Text(
                 'Categoria: Macenaria',
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
@@ -75,12 +75,7 @@ class _PortifolioState extends State<Portifolio> {
               children: [
                 TextButton(
                   onPressed: () {
-                    direcionar(
-                        context,
-                        Servico(
-                            prestador: context
-                                .read<PrestadorRepository>()
-                                .prestadorLogado!));
+                    direcionar(context, DetalheServico(prestador: widget.prestador, indexServico: i,));
                   },
                   child: const Text('Ver Mais'),
                 ),
