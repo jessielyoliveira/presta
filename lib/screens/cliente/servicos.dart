@@ -11,12 +11,27 @@ class Servicos extends StatefulWidget {
 }
 
 class _ServicosState extends State<Servicos> {
-  String? nomeCidade = this.widget.texto;
+  //String? nomeCidade = this.widget.texto;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        //automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text(
+          "Você está em ${this.widget.texto}!",
+          style: TextStyle(color: Colors.black),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.amber,
+      ),
+
       //appBar: getAppBar('Selecione a Categoria do Serviço'),
       body: buildScreenCategorias(context),
+
       backgroundColor: Colors.amber,
     );
     //bottomNavigationBar: getButtonNavigationBar());
@@ -40,7 +55,7 @@ Widget buildScreenCategorias(BuildContext context) {
             children: botoesCategorias(context)),
       ),
     ),
-    Text("Cidade: ${texto}"),
+    //Text("Cidade: ${texto}"),
   ]);
 }
 

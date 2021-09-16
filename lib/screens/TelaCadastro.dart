@@ -273,39 +273,37 @@ class _TelaCadastroState extends State<TelaCadastro> {
           idUsuario: context.read<Autenticacao>().usuario!.uid,
           nome: widget._tNome.text.trim(),
           email: widget._tLogin.text.trim(),
-          urlImagem: "https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png",
+          urlImagem:
+              "https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png",
           contato: widget._tTelefone.text.trim(),
           categorias: mapCategorias,
           disponivel: false);
 
-          widget.prestador = p;
+      widget.prestador = p;
     } else {
       // Autenticacao a = context.read<Autenticacao>();
 
       widget.prestador!.nome = widget._tNome.text.trim();
       widget.prestador!.contato = widget._tTelefone.text.trim();
-
     }
-      await context
-          .read<PrestadorRepository>()
-          .savePrestador(widget.prestador!);
+    await context.read<PrestadorRepository>().savePrestador(widget.prestador!);
 
-      // await context
-      //     .read<PrestadorRepository>()
-      //     .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
+    // await context
+    //     .read<PrestadorRepository>()
+    //     .getPrestadorUsuario(context.read<Autenticacao>().usuario!.uid);
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Usuário criado')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Usuário criado')));
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EscolherServicos(
-                    prestador: widget.prestador!,
-                  )));
-      // } on AutenticacaoException catch (e) {
-      //   ScaffoldMessenger.of(context)
-      //       .showSnackBar(SnackBar(content: Text(e.mensagem)));
-      // }
-    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EscolherServicos(
+                  prestador: widget.prestador!,
+                )));
+    // } on AutenticacaoException catch (e) {
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(SnackBar(content: Text(e.mensagem)));
+    // }
   }
+}
