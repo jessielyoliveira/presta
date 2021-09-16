@@ -6,6 +6,9 @@ import 'package:presta/screens/prestador/verservico.dart';
 import 'package:provider/provider.dart';
 
 class Feed extends StatefulWidget {
+  final String? texto;
+  Feed({Key? key, required this.texto}) : super(key: key);
+
   @override
   _FeedState createState() => _FeedState();
 }
@@ -17,11 +20,16 @@ class _FeedState extends State<Feed> {
         appBar: AppBar(
           elevation: 3,
           backgroundColor: Colors.amber,
-          title: Text("Portifólio"),
+          title: Text("Portifólio de Serviços em ${this.widget.texto}"),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded),
             onPressed: () {
-              direcionar(context, PerfilPrestador(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+              /*direcionar(
+                  context,
+                  PerfilPrestador(
+                      prestador: context
+                          .read<PrestadorRepository>()
+                          .prestadorLogado!));*/
             },
           ),
         ),
@@ -54,7 +62,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /*direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -82,7 +95,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /*direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -110,7 +128,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /* direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -138,7 +161,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /*direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -166,7 +194,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /*direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),
@@ -194,7 +227,12 @@ class _FeedState extends State<Feed> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              direcionar(context, Servico(prestador: context.read<PrestadorRepository>().prestadorLogado!));
+                              /* direcionar(
+                                  context,
+                                  DetalheServico(
+                                      prestador: context
+                                          .read<PrestadorRepository>()
+                                          .prestadorLogado!));*/
                             },
                             child: const Text('Ver Mais'),
                           ),

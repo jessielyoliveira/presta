@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../estrutura.dart';
+
 class Servicos extends StatefulWidget {
+  final String? texto;
+  Servicos({Key? key, required this.texto}) : super(key: key);
+
   @override
   _ServicosState createState() => _ServicosState();
 }
 
 class _ServicosState extends State<Servicos> {
+  String? nomeCidade = this.widget.texto;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +40,7 @@ Widget buildScreenCategorias(BuildContext context) {
             children: botoesCategorias(context)),
       ),
     ),
+    Text("Cidade: ${texto}"),
   ]);
 }
 
@@ -46,7 +53,11 @@ List<Container> botoesCategorias(BuildContext context) {
         margin: EdgeInsets.all(5),
         child: ElevatedButton(
           onPressed: () {
-            // direcionar(context, ListagemPrestadores());
+            /* direcionar(
+                context,
+                Servicos(
+                    texto: this.widget.cidade,
+                    categoria: this.widget.categoria));*/
           },
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all(Colors.amber),

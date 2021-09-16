@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:presta/screens/cliente/feed.dart';
 import 'package:presta/screens/estrutura.dart';
 import 'package:presta/screens/cliente/servicos.dart';
 
@@ -26,6 +27,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Position? _currentPosition;
   String? _currentAddress;
+  String? cidade;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,11 @@ class _HomeState extends State<Home> {
               Padding(padding: EdgeInsets.only(bottom: 25)),
               ElevatedButton(
                 onPressed: () {
-                  direcionar(context, Servicos());
+                  direcionar(
+                      context,
+                      Servicos(
+                        texto: this.cidade,
+                      ));
                 },
                 child: Text(
                   'Continuar',
@@ -119,6 +125,7 @@ class _HomeState extends State<Home> {
               ElevatedButton(
                 onPressed: () async {
                   _getCurrentLocation();
+                  direcionar(context, Servicos(texto: this._currentAddress));
                 },
                 child: Text(
                   'Usar Localizaçao Atual',
@@ -129,7 +136,7 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50))),
               ),
-              if (_currentAddress != null) Text(_currentAddress!),
+
               //"LATITUDE: ${_currentPosition.latitude}, LONGITUDE: ${_currentPosition.longitude} "),
             ]),
       ),
